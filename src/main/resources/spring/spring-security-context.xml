@@ -11,17 +11,20 @@
          However you _must_ bypass security for the login page in order to avoid infinite re-directions. -->
     <!-- security:http auto-config="true" security="none" pattern="/login.do"/> -->
     
+    <security:http  pattern="/*" security="none"/>
     <security:http auto-config="true" access-decision-manager-ref="accessDecisionManager">
         <security:intercept-url pattern="/login.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/*" access="ROLE_USER" />
+        <!--<security:intercept-url pattern="/json/*" access="ROLE_USER" />-->
+        <!--<security:intercept-url pattern="/json/*" filters="none" />-->
         <security:intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>
         <security:form-login login-page="/login.do"/>
         <security:access-denied-handler error-page="/error/403.do"/>
         <!-- Alternatively you can have a custom implementation of AccessDeniedHandler. But you really don't have to.
              Alternatively you may also define it in the web.xml as an error-page. -->
-        
+
         <!-- Enable the following if you want to have a logout success page -->
-        <!-- 
+        <!--
         <security:logout logout-success-url="/"/>
         -->
     </security:http>

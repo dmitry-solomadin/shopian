@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <c:set var="staticUrl" value="http://static.lafox.net/metronic-3.3.1"/>
-
-
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
-<!--[if !IE]><!-->
-<html lang="en" class="no-js">
-<!--<![endif]-->
+<!--[if !IE]><!--><html lang="en" class="no-js"><!--<![endif]-->
+
+
+
 
 <%-- BEGIN HEAD --%>
 <head>
     <meta charset="UTF-8">
-    <title>Shopian3 Dashboard</title>
+    <title><tiles:insertAttribute name="title"  defaultValue="Shopian3"/></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta content="" name="description"/>
@@ -59,18 +59,63 @@
  --%>
 <body class="page-header-fixed page-quick-sidebar-over-content">
 
-
-
-
-
-
-
 <c:import url="/WEB-INF/inc/header.jsp"/>
-<c:import url="/WEB-INF/inc/container.jsp"/>
+<div class="clearfix">
+</div>
+
+<%--<c:import url="/WEB-INF/inc/container.jsp"/>--%>
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+        <div class="page-sidebar navbar-collapse collapse">
 
 
 
+                <tiles:importAttribute name="selected_menu_item" toName="selectedItem"/>
+                <tags:sidebarMenu selectedItem="${selectedItem}"/>
+            <%--<tags:sidebarMenu selectedItem="stat_beacon"/>--%>
+            <%--<tags:sidebarMenu selectedItem="dashboard"/>--%>
+        </div>
+    </div>
+    <!-- END SIDEBAR -->
 
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
+            <!-- BEGIN PAGE HEADER-->
+            <h3 class="page-title"><tiles:insertAttribute name="title"  defaultValue="??? title ???"/> <small> <tiles:insertAttribute name="title_small" defaultValue="??? title_small ???"/></small>
+            </h3>
+            <div class="page-bar">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a href="/">Главная</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a href="#">Dashboard</a>
+                    </li>
+                </ul>
+                <%--<div class="page-toolbar">--%>
+                <%--<div id="dashboard-report-range" class="pull-right tooltips btn btn-fit-height grey-salt" data-placement="top" data-original-title="Change dashboard date range">--%>
+                <%--<i class="icon-calendar"></i>&nbsp;--%>
+                <%--<span class="thin uppercase visible-lg-inline-block">&nbsp;</span>&nbsp;--%>
+                <%--<i class="fa fa-angle-down"></i>--%>
+                <%--</div>--%>
+                <%--</div>--%>
+            </div>
+            <!-- END PAGE HEADER-->
+<tiles:insertAttribute name="body"/>
+
+        </div>
+        <!-- END CONTENT -->
+
+        <%--<c:import url="/WEB-INF/inc/container/quickSidebar.jsp" />--%>
+    </div>
+    <!-- END CONTAINER -->
+</div>
 
 
 

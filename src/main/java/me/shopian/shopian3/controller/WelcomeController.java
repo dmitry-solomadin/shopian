@@ -54,4 +54,23 @@ public class WelcomeController {
         model.addAttribute("name", user.getUsername());
         return "admin.welcome";
     }
+    @RequestMapping(method = RequestMethod.GET, value = { "dashboard" })
+    public String showRoot(Model model) {
+        logger.debug("Page Request: /dashboard.do");
+//        System.out.println("map = " + map);
+        return "dashboard";
+    }
+    @RequestMapping(method = RequestMethod.GET, value = { "aa" })
+    public String aa(Model model) {
+        logger.debug("Page Request: /aa.do");
+//        System.out.println("map = " + map);
+        return "aa";
+    }
+    @RequestMapping(method = RequestMethod.GET, value = { "testJSON" })
+    public String o(Model model) {
+        logger.debug("Page Request: /testJSON");
+//        System.out.println("map = " + map);
+        return "testJSON";
+    }
+
 }

@@ -27,4 +27,27 @@
         <put-attribute name="title" value="Wooooooops!"/>
         <put-attribute name="body" value="/WEB-INF/views/error/403.jsp"/>
     </definition>
+
+    <definition name="metronic" template="/WEB-INF/views/templates/metronicTemplate.jsp">
+        <!--<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />-->
+        <!--<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />-->
+    </definition>
+    <definition name="dashboard" extends="metronic">
+        <put-attribute name="title" value="Dashboard"/>
+        <put-attribute name="title_small" value="отчёты и статистика"/>
+        <put-attribute name="body" value="/WEB-INF/views/dasboard.jsp"/>
+        <put-attribute name="selected_menu_item" value="dashboard"/>
+    </definition>
+    <definition name="aa" extends="metronic">
+        <put-attribute name="title" value="Shopian3 Dashboard"/>
+        <put-attribute name="title_small" value="отчёты и статистика"/>
+        <put-attribute name="selected_menu_item" value="stat_client"/>
+        <put-attribute name="body" value="/WEB-INF/views/dasboard.jsp"/>
+    </definition>
+    <definition name="1" extends="base">
+        <put-attribute name="title" value="Shopian3 Dashboard"/>
+        <put-attribute name="title_small" value="отчёты и статистика"/>
+        <put-attribute name="selected_menu_item" value="stat_client"/>
+        <put-attribute name="body" value="/WEB-INF/views/1.jsp"/>
+    </definition>
 </tiles-definitions>  
