@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="error">
-    <h1>Error 404</h1>
-    <p>You are not authorized to view this page</p>
+    <h1>Error 500</h1>
+    <p>Internal server error</p>
 </div>

@@ -36,12 +36,12 @@ public class WelcomeController {
     /**
      * Handles requests to the /welcome.do page
      **/
-    @RequestMapping(method = RequestMethod.GET, value = { "welcome" })
+    @RequestMapping(method = RequestMethod.GET, value = { "" })
     public String showWelcomePage(Model model) {
-        logger.debug("Page Request: /welcome.do");
-        User user = userService.getCurrentUser();
-        model.addAttribute("name", user.getUsername());
-        return "user.welcome";
+//        logger.debug("Page Request: /welcome.do");
+//        User user = userService.getCurrentUser();
+//        model.addAttribute("name", user.getUsername());
+        return "index";
     }
     
     /**

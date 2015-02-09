@@ -1,27 +1,19 @@
-package me.shopian.shopian3.controller;
+package me.shopian.shopian3.controller.ajax;
 
-import me.shopian.shopian3.service.ForTestingJson;
+import me.shopian.shopian3.controller.WelcomeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/ajax")
-public class StatisticController {
+public class TestController {
     private static Logger logger = LoggerFactory.getLogger(WelcomeController.class);
-
-
-    @RequestMapping(value = "/test.json",  produces="application/json")
-    @ResponseBody
-    public ForTestingJson c() {
-        logger.debug("Page Request: /ajax/test.json");
-        return new ForTestingJson("aaa");
-    }
+    private static final Random random = new Random();
 
 /*
 
@@ -39,5 +31,22 @@ public class StatisticController {
         return map;
     }
 */
-
+    @RequestMapping(value = "/test.txt",  produces = "text/plain")
+    @ResponseBody
+    public String c1() {
+        List<String> list = new ArrayList();
+        logger.debug("Page Request: /json/test.txt");
+//        ObjectMapper mapper = new ObjectMapper();
+//        String json = mapper.writeValueAsString(list);
+        return "saaa";
+    }
+    @RequestMapping(value = "/test.json",  produces = "application/json")
+    @ResponseBody
+    public  Map<String, String> c2() {
+        logger.debug("Page Request: /json/test.json");
+        Map<String, String> map = new HashMap();
+        map.put("a", "a");
+        map.put("b", "b");
+        return map;
+    }
 }
