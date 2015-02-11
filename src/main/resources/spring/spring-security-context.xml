@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:security="http://www.springframework.org/schema/security"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-          http://www.springframework.org/schema/beans/spring-beans.xsd
-          http://www.springframework.org/schema/security
-          http://www.springframework.org/schema/security/spring-security.xsd">
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:security="http://www.springframework.org/schema/security"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:jee="http://www.springframework.org/schema/jee"
+        xsi:schemaLocation="
+            http://www.springframework.org/schema/security  http://www.springframework.org/schema/security/spring-security-3.2.xsd
+            http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+            http://www.springframework.org/schema/jee       http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+            http://www.springframework.org/schema/p         http://www.springframework.org/schema/jee/spring-p-3.2.xsd
+
+        "
+        >
 
     <!-- You can use the following instead of the intercept-url pattern in the next security:http element.
          However you _must_ bypass security for the login page in order to avoid infinite re-directions. -->
     <!-- security:http auto-config="true" security="none" pattern="/login.do"/> -->
     
-    <security:http  pattern="/*" security="none"/>
+    <!--<security:http  pattern="/*" security="none"/>-->
     <security:http auto-config="true" access-decision-manager-ref="accessDecisionManager">
-        <security:intercept-url pattern="/login.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/favicon*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/*" access="ROLE_USER" />
         <!--<security:intercept-url pattern="/json/*" access="ROLE_USER" />-->
         <!--<security:intercept-url pattern="/json/*" filters="none" />-->
-        <security:intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>
-        <security:form-login login-page="/login.do"/>
-        <security:access-denied-handler error-page="/error/403.do"/>
+        <!--<security:intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>-->
+        <security:form-login login-page="/login"/>
+        <security:access-denied-handler error-page="/error/403"/>
         <!-- Alternatively you can have a custom implementation of AccessDeniedHandler. But you really don't have to.
              Alternatively you may also define it in the web.xml as an error-page. -->
 
@@ -27,7 +35,10 @@
         <!--
         <security:logout logout-success-url="/"/>
         -->
+        <security:remember-me key="shopian3-AppKey-eb9945124e8c32601ded840e71ebe3ad" token-validity-seconds="864000"/>
+
     </security:http>
+
 
   <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
       <property name="decisionVoters">

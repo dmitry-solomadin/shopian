@@ -3,23 +3,26 @@ package me.shopian.shopian3.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="beacons")
+@Table(
+        name = "beacons",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"uuid", "minor", "major"})
+)
 public class Beacon {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String uuid;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private int minor;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private int major;
 
 
@@ -63,5 +66,16 @@ public class Beacon {
 
     public void setMajor(int major) {
         this.major = major;
+    }
+
+    @Override
+    public String toString() {
+        return "Beacon{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", uuid='" + uuid + '\'' +
+                ", minor=" + minor +
+                ", major=" + major +
+                '}';
     }
 }

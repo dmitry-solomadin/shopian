@@ -61,7 +61,9 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
-
+    <!--<tx:annotation-driven/>-->
+    <bean id="myBeaconDao" class="me.shopian.shopian3.dao.BeaconDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

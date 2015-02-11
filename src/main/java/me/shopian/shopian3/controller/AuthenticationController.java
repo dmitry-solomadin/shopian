@@ -15,26 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class AuthenticationController {
     
-    /**
-     * The logger instance
-     **/
     private static Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
-    /**
-     * Handles requests to the /login.do page
-     **/
     @RequestMapping(method = RequestMethod.GET, value = { "login" })
     public String showLoginPage(Model model) {
-        logger.debug("Page Request: /login.do");
         return "login";
     }
-    
-    /**
-     * Handles requests to the /403.do page
-     **/
-    @RequestMapping(method = RequestMethod.GET, value = { "error/403" })
-    public String show403Page(Model model) {
-        logger.debug("Page Request: /error/403.do");
-        return "403";
-    }
+
 }

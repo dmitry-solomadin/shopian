@@ -60,21 +60,21 @@ DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed
         </a>
     </li>
     <li class="${'shop'.equals(selectedItem)?' active':''}">
-        <a href="/shop.do">
+        <a href="/shop">
             <i class="icon-basket"></i>
             <span class="title">Магазины</span>
             <span class="selected"></span>
         </a>
     </li>
     <li class="${'beacon'.equals(selectedItem)?' active':''}">
-        <a href="/beacon.do">
+        <a href="/beacon">
             <i class="icon-pointer"></i>
             <span class="title">Маячки</span>
             <span class="selected"></span>
         </a>
     </li>
     <li class="${'ad'.equals(selectedItem)?' active':''}">
-        <a href="/ad.do">
+        <a href="/ad">
             <i class="icon-rocket"></i>
             <span class="title">Акции</span>
             <span class="selected"></span>

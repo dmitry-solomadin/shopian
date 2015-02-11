@@ -12,7 +12,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/ajax")
 public class TestController {
-    private static Logger logger = LoggerFactory.getLogger(WelcomeController.class);
+    private static Logger logger = LoggerFactory.getLogger(TestController.class);
     private static final Random random = new Random();
 
 /*

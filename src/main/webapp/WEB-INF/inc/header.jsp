@@ -6,8 +6,9 @@
     <div class="page-header-inner">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="index.html">
-                <img src="../../assets/admin/layout/img/logo.png" alt="logo" class="logo-default"/>
+            <a href="/">
+                <%--<img src="/resources/images/red6.png" alt="logo" class="logo-default" style="margin-top: 12px"/>--%>
+                <img src="/resources/images/logo-shopian.png" alt="logo" class="logo-default" />
             </a>
             <div class="menu-toggler sidebar-toggler hide">
                 <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -22,15 +23,15 @@
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
 
-                <c:import url="/WEB-INF/inc/header/notificationDropdown.jsp"/>
-                <c:import url="/WEB-INF/inc/header/inboxDropdown.jsp"/>
-                <c:import url="/WEB-INF/inc/header/todoDropdown.jsp"/>
+                <%--<c:import url="/WEB-INF/inc/header/notificationDropdown.jsp"/>--%>
+                <%--<c:import url="/WEB-INF/inc/header/inboxDropdown.jsp"/>--%>
+                <%--<c:import url="/WEB-INF/inc/header/todoDropdown.jsp"/>--%>
                 <c:import url="/WEB-INF/inc/header/userLoginDropdown.jsp"/>
 
                 <!-- BEGIN QUICK SIDEBAR TOGGLER -->
                 <li class="dropdown dropdown-quick-sidebar-toggler">
-                    <a href="javascript:;" class="dropdown-toggle">
-                        <i class="icon-logout"></i>
+                    <a href="/j_spring_security_logout" class="dropdown-toggle">
+                        <i class="icon-login"></i>
                     </a>
                 </li>
                 <!-- END QUICK SIDEBAR TOGGLER -->

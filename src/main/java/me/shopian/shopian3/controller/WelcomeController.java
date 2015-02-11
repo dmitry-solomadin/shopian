@@ -29,22 +29,6 @@ public class WelcomeController {
 
 
     /**
-     * The instance of userDetailsService injected with Spring
-     **/
-
-
-    /**
-     * Handles requests to the /welcome.do page
-     **/
-    @RequestMapping(method = RequestMethod.GET, value = { "" })
-    public String showWelcomePage(Model model) {
-//        logger.debug("Page Request: /welcome.do");
-//        User user = userService.getCurrentUser();
-//        model.addAttribute("name", user.getUsername());
-        return "index";
-    }
-    
-    /**
      * Handles requests to the /admin/welcome.do page
      **/
     @RequestMapping(method = RequestMethod.GET, value = { "admin/welcome" })

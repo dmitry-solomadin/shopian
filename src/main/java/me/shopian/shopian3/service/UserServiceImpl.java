@@ -19,6 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("userDetailsService")
@@ -38,10 +39,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @param username username of the logged in user
      * @return Spring security user object for the logged in user
      */
+    @Transactional
     public org.springframework.security.core.userdetails.User loadUserByUsername(String username) {
-        logger.debug("Spring security loading user details for user: " + username);
+        logger.info("Spring security loading user details for user: " + username);
         User user = userDao.findUserByUsername(username);
+        System.out.println("user = " + user);
         Collection<Role> roles = user.getRoles();
+        System.out.println("roles = " + roles);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         Iterator<Role> iterator = roles.iterator();
         while(iterator.hasNext()) {

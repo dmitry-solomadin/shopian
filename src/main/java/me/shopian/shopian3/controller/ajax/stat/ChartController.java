@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Controller
 @RequestMapping("/ajax/stat/chart")
 public class ChartController {
-    private static Logger logger = LoggerFactory.getLogger(WelcomeController.class);
+    private static Logger logger = LoggerFactory.getLogger(ChartController.class);
     private static final Random random = new Random();
 
     @RequestMapping(value = "/clients.json", produces = "application/json")
