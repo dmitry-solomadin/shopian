@@ -1,7 +1,6 @@
 package me.shopian.shopian3.service;
 
 import me.shopian.shopian3.dao.BeaconDao;
-import me.shopian.shopian3.dao.BeaconDaoImpl;
 import me.shopian.shopian3.entity.Beacon;
 import me.shopian.shopian3.util.ColumnDirection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BeaconServiceImpl implements BeaconService {
@@ -39,8 +37,8 @@ public class BeaconServiceImpl implements BeaconService {
     }
 
     @Override
-    public List<Beacon> list(int start, int length , List<ColumnDirection> sortColumns, String search){
-        return this.beaconDao.list(start,length,sortColumns,search);
+    public List<Beacon> list(int start, int length, List<ColumnDirection> sortColumns, String search) {
+        return this.beaconDao.list(start, length, sortColumns, search);
     }
 
     @Override

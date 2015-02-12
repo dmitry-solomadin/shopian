@@ -19,38 +19,26 @@ import java.util.Iterator;
 
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
-    
-    /**
-     * The logger instance
-     **/
+
     private static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
-    
-    /**
-     * The instance of SessionFactory injected with Spring
-     **/
+
     @Autowired
     private SessionFactory sessionFactory;
-    
-    /**
-     * Returns the user object matched by the passed username. Returns null if the user is not 
-     * found in the database.
-     * @param username username of the user which needs to query for
-     * @return an instance of User if the user is found, null otherwise
-     **/
-    @Transactional(readOnly=true)
+
+    @Transactional(readOnly = true)
     public User findUserByUsername(String username) {
         Session session = sessionFactory.getCurrentSession();
-        User user = (User)session.createQuery("from User user where user.username=?")
+        User user = (User) session.createQuery("from User user where user.username=?")
                 .setParameter(0, username)
                 .uniqueResult();
-        
+
         if (logger.isDebugEnabled()) {
-            if (user==null) {
+            if (user == null) {
                 logger.trace("User not found: " + username);
             } else {
                 logger.trace("User found: " + username);
                 Iterator<Role> roleIterator = user.getRoles().iterator();
-                while(roleIterator.hasNext()) {
+                while (roleIterator.hasNext()) {
                     Role role = roleIterator.next();
                     logger.trace("\tUser role: " + role.getRoleName());
                 }

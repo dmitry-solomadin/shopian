@@ -55,7 +55,7 @@ public class BeaconDaoImpl implements BeaconDao {
                 .setFirstResult(start)
                 .setMaxResults(length);
 
-        if (sortColumns!=null) for (ColumnDirection cd : sortColumns) {
+        if (sortColumns != null) for (ColumnDirection cd : sortColumns) {
             if (cd.isDesc()) {
                 criteria.addOrder(Order.desc(cd.getColumn()));
             } else {

@@ -9,17 +9,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class RootController {
-    private static Logger logger = LoggerFactory.getLogger(WelcomeController.class);
+    private static Logger logger = LoggerFactory.getLogger(RootController.class);
 
-    @RequestMapping(method = RequestMethod.GET, value = { "" })
+    @RequestMapping(method = RequestMethod.GET, value = {""})
     public String index(Model model) {
         return "index";
     }
-    @RequestMapping(method = RequestMethod.GET, value = { "shop" })
+
+    @RequestMapping(method = RequestMethod.GET, value = {"shop"})
     public String shop(Model model) {
         return "shop";
     }
-    @RequestMapping(method = RequestMethod.GET, value = { "beacon" })
+
+    @RequestMapping(method = RequestMethod.GET, value = {"beacon"})
     public String beacon(Model model) {
         return "beacon";
     }

@@ -50,8 +50,6 @@ public class BeaconController {
     }
 
 /*
-
-
 draw:1
 start:0
 length:10
@@ -63,10 +61,10 @@ search[regex]:false
     @RequestMapping(value = "list.json")
     @ResponseBody
     public Map list(HttpServletRequest request,
-             @RequestParam(value = "draw", required = false, defaultValue = "0") int draw
+                    @RequestParam(value = "draw", required = false, defaultValue = "0") int draw
             , @RequestParam(value = "start", required = false, defaultValue = "0") int start
             , @RequestParam(value = "length", required = false, defaultValue = "10") int length
-             , @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchText
+            , @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchText
     ) {
 
         System.out.println("getColumnDirectionList = " + DataTableUtils.getColumnDirectionList(request));
@@ -75,9 +73,9 @@ search[regex]:false
 
         Map map = new HashMap();
         map.put("draw", draw);
-        map.put("data",beaconService.list(start,length,DataTableUtils.getColumnDirectionList(request),searchText));
-        map.put("recordsTotal",beaconService.count());
-        map.put("recordsFiltered",beaconService.count());
+        map.put("data", beaconService.list(start, length, DataTableUtils.getColumnDirectionList(request), searchText));
+        map.put("recordsTotal", beaconService.count());
+        map.put("recordsFiltered", beaconService.count());
         return map;
     }
 }

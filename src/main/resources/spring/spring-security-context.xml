@@ -22,7 +22,7 @@
     <security:http auto-config="true" access-decision-manager-ref="accessDecisionManager">
         <security:intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/favicon*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/*" access="ROLE_USER" />
+        <security:intercept-url pattern="/*" access="ROLE_ADMIN,ROLE_USER" />
         <!--<security:intercept-url pattern="/json/*" access="ROLE_USER" />-->
         <!--<security:intercept-url pattern="/json/*" filters="none" />-->
         <!--<security:intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>-->

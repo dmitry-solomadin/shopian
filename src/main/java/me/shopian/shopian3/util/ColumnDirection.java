@@ -4,10 +4,11 @@ public class ColumnDirection {
     String column;
     String direction;
 
-    public boolean isDesc(){
+    public boolean isDesc() {
         return "desc".equals(direction);
     }
-    public boolean isAsc(){
+
+    public boolean isAsc() {
         return !isDesc();
     }
 
