@@ -1,5 +1,7 @@
 package me.shopian.shopian3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,8 +19,15 @@ public class Shop {
     @Column(nullable=true)
     private String address;
 
-    @OneToMany
+    @Column(nullable=false)
+    @OneToMany(fetch = FetchType.EAGER)
     private Collection<Department> departments=new ArrayList();
+
+    @ManyToOne
+    @JsonIgnore
+//    @Column(nullable=false)
+    private User user;
+
 
 
 /////////////////////////////////////////////////////
@@ -54,5 +63,24 @@ public class Shop {
 
     public void setDepartments(Collection<Department> departments) {
         this.departments = departments;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Shop{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", address='" + address + '\'' +
+                ", departments=" + departments +
+                ", user=" + user +
+                '}';
     }
 }

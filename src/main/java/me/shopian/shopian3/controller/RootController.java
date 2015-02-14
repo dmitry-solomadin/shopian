@@ -15,7 +15,10 @@ public class RootController {
     public String index(Model model) {
         return "index";
     }
-
+    @RequestMapping(method = RequestMethod.GET, value = {"ad"})
+    public String ad(Model model) {
+        return "ad";
+    }
     @RequestMapping(method = RequestMethod.GET, value = {"shop"})
     public String shop(Model model) {
         return "shop";

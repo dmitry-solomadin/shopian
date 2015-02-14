@@ -66,4 +66,7 @@
     <bean id="myBeaconDao" class="me.shopian.shopian3.dao.BeaconDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="myShopDao" class="me.shopian.shopian3.dao.ShopDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

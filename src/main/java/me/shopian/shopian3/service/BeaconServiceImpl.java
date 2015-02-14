@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class BeaconServiceImpl implements BeaconService {
 
 
@@ -19,19 +20,16 @@ public class BeaconServiceImpl implements BeaconService {
     private BeaconDao beaconDao;
 
     @Override
-    @Transactional
     public void add(Beacon beacon) {
         this.beaconDao.add(beacon);
     }
 
     @Override
-    @Transactional
     public void update(Beacon beacon) {
         this.beaconDao.update(beacon);
     }
 
     @Override
-    @Transactional
     public List<Beacon> list() {
         return this.beaconDao.list();
     }
@@ -52,13 +50,11 @@ public class BeaconServiceImpl implements BeaconService {
     }
 
     @Override
-    @Transactional
     public Beacon get(long id) {
         return this.beaconDao.get(id);
     }
 
     @Override
-    @Transactional
     public void delete(long id) {
         this.beaconDao.delete(id);
     }
