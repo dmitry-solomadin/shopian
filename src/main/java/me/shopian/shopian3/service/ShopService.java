@@ -1,5 +1,6 @@
 package me.shopian.shopian3.service;
 
+import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
 import me.shopian.shopian3.util.ColumnDirection;
 
@@ -21,4 +22,6 @@ public interface ShopService {
     public Shop getByTitle(Shop shop);
 
     public void delete(long id);
+
+
 }

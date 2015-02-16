@@ -1,5 +1,7 @@
 package me.shopian.shopian3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ public class Department {
     private String title;
 
     @ManyToOne
+    @JsonIgnore
     private Shop shop;
 ////////////////////////////////////////////////////////
 
@@ -39,5 +42,13 @@ public class Department {
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
     }
 }

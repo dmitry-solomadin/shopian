@@ -20,12 +20,12 @@ public class Shop {
     private String address;
 
     @Column(nullable=false)
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private Collection<Department> departments=new ArrayList();
 
+//    @Column(nullable=false)
     @ManyToOne
     @JsonIgnore
-//    @Column(nullable=false)
     private User user;
 
 
@@ -73,14 +73,5 @@ public class Shop {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Shop{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", address='" + address + '\'' +
-                ", departments=" + departments +
-                ", user=" + user +
-                '}';
-    }
+
 }

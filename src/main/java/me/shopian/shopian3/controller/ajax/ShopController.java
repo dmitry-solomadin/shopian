@@ -10,6 +10,7 @@ import me.shopian.shopian3.service.ShopService;
 import me.shopian.shopian3.service.UserService;
 import me.shopian.shopian3.service.UserServiceImpl;
 import me.shopian.shopian3.util.DataTableUtils;
+import me.shopian.shopian3.util.IdTitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/ajax/shop")
@@ -50,7 +49,7 @@ public class ShopController {
         if (tmp == null) {
             shopService.add(shop);
         } else {
-            map.put("error", "shop with title ("+shop.getTitle()+") already exists:" + tmp.toString());
+            map.put("error", "Магазин '"+shop.getTitle()+"' уже есть ( id:"+tmp.getId()+" )");
         }
         map.put("shop", shop);
         logger.info("shop " + shop);
@@ -58,12 +57,11 @@ public class ShopController {
     }
     @RequestMapping(value = "{id:\\d+}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Map del(
-            @PathVariable long id
-    ) {
+    public Map del( @PathVariable long id) {
         Map map = new HashMap();
         Shop shop = shopService.get(id);
         User user=userService.getCurrentUser();
+
         if (user==null || user.getUsername()==null||user.getUsername().isEmpty()){
             map.put("error", "Authorization error");
         }if (shop==null || shop.getId()<1){
@@ -91,4 +89,53 @@ public class ShopController {
         map.put("recordsFiltered", shopService.count());
         return map;
     }
+    @RequestMapping(value = "info.json")
+    @ResponseBody
+    public Map list(@RequestParam(value = "id", required = true) long id) {
+        Map map = new HashMap();
+        Shop shop = shopService.get(id);
+        System.out.println("shop = " + shop);
+        map.put("id", shop.getId());
+        map.put("title", shop.getTitle());
+        map.put("address", shop.getAddress());
+//        map.put("departments",shop.getDepartments());
+        return map;
+    }
+    @RequestMapping(value = "departments.json")
+    @ResponseBody
+    public Map departments(@RequestParam(value = "id", required = false, defaultValue = "0") long id) {
+        Map map = new HashMap();
+        map.put("data",new ArrayList());
+         if (id<1) return map;
+
+        Shop shop = shopService.get(id);
+        System.out.println("shop = " + shop);
+
+         if (shop!=null ){
+             map.put("data",shop.getDepartments());
+         }
+        return map;
+    }
+
+    @RequestMapping(value = "update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map update(@RequestBody Shop shop) {
+        shop.setUser(userService.getCurrentUser());
+
+        logger.info("Shop update : " + shop);
+        Map map = new HashMap();
+        Shop tmp = shopService.get(shop.getId());
+        tmp.setTitle(shop.getTitle());
+        tmp.setAddress(shop.getAddress());
+//        logger.info("tmp: " + tmp);
+        if (tmp != null) {
+            shopService.update(tmp);
+        } else {
+            map.put("error", "Магазина с id:" + shop.getId() + " не существует");
+        }
+        return map;
+    }
+
+
+
 }

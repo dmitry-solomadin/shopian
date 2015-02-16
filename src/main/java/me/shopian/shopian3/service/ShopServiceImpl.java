@@ -1,6 +1,7 @@
 package me.shopian.shopian3.service;
 
 import me.shopian.shopian3.dao.ShopDao;
+import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
 import me.shopian.shopian3.util.ColumnDirection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,4 +58,5 @@ public class ShopServiceImpl implements ShopService {
     public void delete(long id) {
         shopDao.delete(id);
     }
+
 }

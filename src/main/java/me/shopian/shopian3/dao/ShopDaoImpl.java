@@ -1,12 +1,10 @@
 package me.shopian.shopian3.dao;
 
+import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
 import me.shopian.shopian3.util.ColumnDirection;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.*;
+import org.hibernate.criterion.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -16,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Transactional
 public class ShopDaoImpl implements ShopDao {
     private SessionFactory sessionFactory;
 
@@ -27,6 +24,7 @@ public class ShopDaoImpl implements ShopDao {
 
     private static Logger logger = LoggerFactory.getLogger(ShopDaoImpl.class);
     @Override
+    @Transactional
     public void add(Shop shop) {
         Session session = this.sessionFactory.getCurrentSession();
         session.persist(shop);
@@ -34,6 +32,7 @@ public class ShopDaoImpl implements ShopDao {
     }
 
     @Override
+    @Transactional
     public void update(Shop shop) {
         Session session = this.sessionFactory.getCurrentSession();
         session.update(shop);
@@ -41,23 +40,26 @@ public class ShopDaoImpl implements ShopDao {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Shop> list() {
         Session session = this.sessionFactory.getCurrentSession();
         return session.createQuery("from Shop").list();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Shop> list(int start, int length, List<ColumnDirection> sortColumns, String search) {
         Session session = this.sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Shop.class);
-       if (start>0){
+
+        if (start > 0) {
             criteria.setFirstResult(start);
         }
         if (length>0){
             criteria.setMaxResults(length);
         }
         if (search!=null&&!search.isEmpty()){
-            criteria.add(Restrictions.like("title", "%"+search+"%"));
+            criteria.add(Restrictions.like("title", "%" + search +"%"));
         }
         if (sortColumns != null) {
             for (ColumnDirection cd : sortColumns) {
@@ -68,22 +70,32 @@ public class ShopDaoImpl implements ShopDao {
                 }
             }
         }
-        return criteria.list();
+
+        List<Shop> list=criteria.list();
+        for(Shop shop:list){
+            Hibernate.initialize(shop.getUser());
+            Hibernate.initialize(shop.getDepartments());
+        }
+        System.out.println("list = " + list.size());
+        return list;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long count() {
         Session session = this.sessionFactory.getCurrentSession();
         return (long) session.createQuery("select count(*) from Shop").uniqueResult();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Shop get(long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        return (Shop) session.load(Shop.class, id);
+        return (Shop) session.get(Shop.class, id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Shop getByTitle(Shop shop) {
         Session session = this.sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Shop.class);
@@ -91,10 +103,13 @@ public class ShopDaoImpl implements ShopDao {
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         Session session = this.sessionFactory.getCurrentSession();
         Shop shop = (Shop) session.load(Shop.class, id);
-        logger.debug("SHOP:"+shop);
+        for (Department department:shop.getDepartments()){
+            session.delete(department);
+        }
         if (shop != null) {
             session.delete(shop);
         }

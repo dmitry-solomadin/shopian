@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="metronicUrl" value="http://static.lafox.net/metronic-3.3.1" scope="request"/>
-<c:set var="title" value="Маячок" scope="request"/>
+<c:set var="title" value="Магазины" scope="request"/>
 
 <tags:metronicHead title="${title}"/>
 
@@ -71,7 +71,7 @@
                             </table>
                             <hr/>
                             <%--<div class="table-toolbar">--%>
-                            <form class="form" role="form" id="formAddBeacon">
+                            <form class="form" role="form" id="formAddShop">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-4">
                                         <input type="text" class="form-input form-control" id="title" placeholder="Название" required="true">
@@ -140,10 +140,7 @@
 
     });
 
-    function editRow(id){
-        $("#basic").modal()
-//        alert(id)
-    }
+
     function delRow(id,title){
         bootbox.confirm("Удалить магазин '"+title+"'?", function(result) {
             if (result==true){
@@ -181,17 +178,24 @@
                 [5, 10, 15, 25, 50, 100, -1],
                 [5, 10, 15, 25, 50, 100, "All"] // change per page values here
             ],
+           aoColumnDefs: [
+               { 'bSortable': false, 'aTargets': [ -1 ] }
+           ],
             pageLength: 10,
             order: [
-                [0, "asc"]
+                [0, "desc"]
             ],
            fnRowCallback: function (nRow, aData, iDisplayIndex) {
                $('td', nRow).eq(4).html('' +
                '<button class="btn btn-primary btn-xs" onclick="editRow('+aData['id']+')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
                '<button class="btn btn-danger  btn-xs" onclick="delRow('+aData['id']+',\''+aData['title']+'\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
                '')
-//               $('td', nRow).eq(4).html('<button onclick="edit('+aData['id']+')"></button><a class="edit" href="javascript:;">Edit</a>' +
-//               ' <a class="delete" href="javascript:;">Delete</a>')
+               var deps=""
+               $.each(aData['departments'], function(i, item){
+                   if (i>0) deps+=", "
+                   deps+=item['title']
+               });
+               $('td', nRow).eq(3).html(deps)
            }
         });
 
@@ -202,7 +206,7 @@
 
     })
     $(document).ready(function () {
-        $('#formAddBeacon').submit(function (event) {
+        $('#formAddShop').submit(function (event) {
 
             var title = $('#title').val();
             var address = $('#address').val();
@@ -216,6 +220,8 @@
                 success: function (data) {
                     if (data["error"]) alert(data["error"]) // TODO out error to label and pretty alert
                     $(".reload").click();
+                    $('#title').val('')
+                    $('#address').val('')
                 }
             });
             event.preventDefault();
