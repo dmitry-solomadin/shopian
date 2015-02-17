@@ -2,6 +2,7 @@ package me.shopian.shopian3.service;
 
 import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
+import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.util.ColumnDirection;
 
 import java.util.List;
@@ -11,9 +12,9 @@ public interface ShopService {
 
     public void update(Shop shop);
 
-    public List<Shop> list();
+    public List list(User user);
 
-    public List<Shop> list(int start, int length, List<ColumnDirection> sortColumns, String search);
+    public List<Shop> list(User user, int start, int length, List<ColumnDirection> sortColumns, String search);
 
     public long count();
 

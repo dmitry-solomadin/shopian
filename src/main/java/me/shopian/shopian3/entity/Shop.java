@@ -23,11 +23,9 @@ public class Shop {
     @OneToMany(fetch = FetchType.LAZY)
     private Collection<Department> departments=new ArrayList();
 
-//    @Column(nullable=false)
     @ManyToOne
     @JsonIgnore
     private User user;
-
 
 
 /////////////////////////////////////////////////////
@@ -73,5 +71,4 @@ public class Shop {
         this.user = user;
     }
 
-
-}
+ }

@@ -21,8 +21,20 @@
     <!--<security:http  pattern="/*" security="none"/>-->
     <security:http auto-config="true" access-decision-manager-ref="accessDecisionManager">
         <security:intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
         <security:intercept-url pattern="/favicon*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/*" access="ROLE_ADMIN,ROLE_USER" />
+        <security:intercept-url pattern="/" access="ROLE_ADMIN,ROLE_USER" />
+
+        <security:intercept-url pattern="/beacon*" access="ROLE_ADMIN" />
+        <security:intercept-url pattern="/shop*" access="ROLE_USER" />
+        <security:intercept-url pattern="/ad*" access="ROLE_USER" />
+
+        <security:intercept-url pattern="/ajax/beacon/**" access="ROLE_ADMIN" />
+        <security:intercept-url pattern="/ajax/stat/**" access="ROLE_USER" />
+        <security:intercept-url pattern="/ajax/shop/**" access="ROLE_USER" />
+        <security:intercept-url pattern="/ajax/department/**" access="ROLE_USER" />
+
+
         <!--<security:intercept-url pattern="/json/*" access="ROLE_USER" />-->
         <!--<security:intercept-url pattern="/json/*" filters="none" />-->
         <!--<security:intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>-->

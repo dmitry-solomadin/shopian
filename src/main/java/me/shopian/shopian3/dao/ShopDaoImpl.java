@@ -2,6 +2,7 @@ package me.shopian.shopian3.dao;
 
 import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
+import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.util.ColumnDirection;
 import org.hibernate.*;
 import org.hibernate.criterion.*;
@@ -41,16 +42,20 @@ public class ShopDaoImpl implements ShopDao {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Shop> list() {
+    public List<Shop> list(User user) {
         Session session = this.sessionFactory.getCurrentSession();
-        return session.createQuery("from Shop").list();
+        Criteria criteria = session.createCriteria(Shop.class);
+        criteria.add(Restrictions.eq("user",user));
+        return criteria.list();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Shop> list(int start, int length, List<ColumnDirection> sortColumns, String search) {
+    public List<Shop> list(User user, int start, int length, List<ColumnDirection> sortColumns, String search) {
+        System.out.println("user = [" + user + "], start = [" + start + "], length = [" + length + "], sortColumns = [" + sortColumns + "], search = [" + search + "]");
         Session session = this.sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Shop.class);
+        criteria.add(Restrictions.eq("user",user));
 
         if (start > 0) {
             criteria.setFirstResult(start);

@@ -3,6 +3,7 @@ package me.shopian.shopian3.service;
 import me.shopian.shopian3.dao.ShopDao;
 import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
+import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.util.ColumnDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,13 +31,13 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<Shop> list() {
-        return shopDao.list();
+    public List<Shop> list(User user) {
+        return shopDao.list(user);
     }
 
     @Override
-    public List<Shop> list(int start, int length, List<ColumnDirection> sortColumns, String search) {
-        return shopDao.list(start, length, sortColumns, search);
+    public List<Shop> list(User user, int start, int length, List<ColumnDirection> sortColumns, String search) {
+        return shopDao.list(user,start, length, sortColumns, search);
     }
 
     @Override

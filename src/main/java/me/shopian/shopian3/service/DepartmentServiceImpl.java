@@ -1,6 +1,8 @@
 package me.shopian.shopian3.service;
 
 import me.shopian.shopian3.dao.DepartmentDaoImpl;
+import me.shopian.shopian3.entity.Department;
+import me.shopian.shopian3.entity.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,10 @@ public class DepartmentServiceImpl implements DepartmentService{
     public void update(long departmentId, String title) {
         departmentDao.update(departmentId,title);
 
+    }
+
+    @Override
+    public Department get(long id) {
+        return departmentDao.get(id);
     }
 }

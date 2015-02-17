@@ -3,6 +3,8 @@ package me.shopian.shopian3.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name="departments")
@@ -17,6 +19,8 @@ public class Department {
     @ManyToOne
     @JsonIgnore
     private Shop shop;
+
+
 ////////////////////////////////////////////////////////
 
 

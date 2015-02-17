@@ -1,5 +1,7 @@
 package me.shopian.shopian3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,7 +15,7 @@ public class Beacon {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String title;
 
     @Column(nullable = false)
@@ -24,6 +26,16 @@ public class Beacon {
 
     @Column(nullable = false)
     private int major;
+
+    @ManyToOne
+//    @JsonIgnore
+    private User user;
+
+    @ManyToOne
+    private Shop shop;
+
+    @ManyToOne
+    private Department department;
 
 
     ///////////////////////////////////////////////////////////
@@ -68,14 +80,27 @@ public class Beacon {
         this.major = major;
     }
 
-    @Override
-    public String toString() {
-        return "Beacon{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", uuid='" + uuid + '\'' +
-                ", minor=" + minor +
-                ", major=" + major +
-                '}';
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

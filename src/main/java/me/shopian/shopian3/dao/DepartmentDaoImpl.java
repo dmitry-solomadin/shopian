@@ -54,4 +54,11 @@ public class DepartmentDaoImpl implements DepartmentDao{
         department.setTitle(title);
         session.update(department);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Department get(long id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        return (Department) session.get(Department.class, id);
+    }
 }

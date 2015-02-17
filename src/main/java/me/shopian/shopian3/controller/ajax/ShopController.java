@@ -1,28 +1,24 @@
 package me.shopian.shopian3.controller.ajax;
 
-import me.shopian.shopian3.dao.UserDao;
-import me.shopian.shopian3.dao.UserDaoImpl;
-import me.shopian.shopian3.entity.Beacon;
 import me.shopian.shopian3.entity.Shop;
 import me.shopian.shopian3.entity.User;
-import me.shopian.shopian3.service.BeaconService;
 import me.shopian.shopian3.service.ShopService;
 import me.shopian.shopian3.service.UserService;
-import me.shopian.shopian3.service.UserServiceImpl;
 import me.shopian.shopian3.util.DataTableUtils;
-import me.shopian.shopian3.util.IdTitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/ajax/shop")
@@ -49,30 +45,33 @@ public class ShopController {
         if (tmp == null) {
             shopService.add(shop);
         } else {
-            map.put("error", "Магазин '"+shop.getTitle()+"' уже есть ( id:"+tmp.getId()+" )");
+            map.put("error", "Магазин '" + shop.getTitle() + "' уже есть ( id:" + tmp.getId() + " )");
         }
         map.put("shop", shop);
         logger.info("shop " + shop);
         return map;
     }
+
     @RequestMapping(value = "{id:\\d+}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Map del( @PathVariable long id) {
+    public Map del(@PathVariable long id) {
         Map map = new HashMap();
         Shop shop = shopService.get(id);
-        User user=userService.getCurrentUser();
+        User user = userService.getCurrentUser();
 
-        if (user==null || user.getUsername()==null||user.getUsername().isEmpty()){
+        if (user == null || user.getUsername() == null || user.getUsername().isEmpty()) {
             map.put("error", "Authorization error");
-        }if (shop==null || shop.getId()<1){
-            map.put("error", "Shop #"+id+" not found");
-        }else if (!user.getUsername().equals(shop.getUser().getUsername())){
+        }
+        if (shop == null || shop.getId() < 1) {
+            map.put("error", "Shop #" + id + " not found");
+        } else if (!user.getUsername().equals(shop.getUser().getUsername())) {
             map.put("error", "You don't have permission to delete this shop");
-        }else {
+        } else {
             shopService.delete(id);
         }
         return map;
     }
+
     @RequestMapping(value = "list.json")
     @ResponseBody
     public Map list(HttpServletRequest request
@@ -82,13 +81,14 @@ public class ShopController {
             , @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchText
     ) {
         Map map = new HashMap();
-        List l=shopService.list(start, length, DataTableUtils.getColumnDirectionList(request), searchText);
+        List l = shopService.list(userService.getCurrentUser(), start, length, DataTableUtils.getColumnDirectionList(request), searchText);
         map.put("draw", draw);
         map.put("data", l);
         map.put("recordsTotal", shopService.count());
         map.put("recordsFiltered", shopService.count());
         return map;
     }
+
     @RequestMapping(value = "info.json")
     @ResponseBody
     public Map list(@RequestParam(value = "id", required = true) long id) {
@@ -101,19 +101,20 @@ public class ShopController {
 //        map.put("departments",shop.getDepartments());
         return map;
     }
+
     @RequestMapping(value = "departments.json")
     @ResponseBody
     public Map departments(@RequestParam(value = "id", required = false, defaultValue = "0") long id) {
         Map map = new HashMap();
-        map.put("data",new ArrayList());
-         if (id<1) return map;
+        map.put("data", new ArrayList());
+        if (id < 1) return map;
 
         Shop shop = shopService.get(id);
         System.out.println("shop = " + shop);
 
-         if (shop!=null ){
-             map.put("data",shop.getDepartments());
-         }
+        if (shop != null) {
+            map.put("data", shop.getDepartments());
+        }
         return map;
     }
 
@@ -135,7 +136,6 @@ public class ShopController {
         }
         return map;
     }
-
 
 
 }

@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:set var="metronicUrl" value="http://static.lafox.net/metronic-3.3.1" scope="request"/>
 <c:set var="title" value="Dashboard" scope="request"/>
@@ -37,14 +38,12 @@
         <div class="page-content">
 
             <tags:breadCrumbs titleShort="${title}" titleLong="отчеты и статистика" showCalendar="true"/>
+            <sec:authorize url="/ajax/stat/chart/action.json">
             <c:import url="/WEB-INF/inc/container/dashbordStats.jsp"/>
 
+            <div class="clearfix"></div>
 
-            <div class="clearfix">
-            </div>
             <div class="row">
-
-
                 <!-- BEGIN INTERACTIVE CHART PORTLET-->
                 <div class="col-md-6 col-sm-6">
                     <div class="portlet box yellow">
@@ -95,6 +94,7 @@
                     </div>
                 </div>
             </div>
+                </sec:authorize>
         </div>
         <!-- END CONTENT -->
 

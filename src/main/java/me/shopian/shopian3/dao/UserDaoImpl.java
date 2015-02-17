@@ -5,16 +5,25 @@
 package me.shopian.shopian3.dao;
 
 import me.shopian.shopian3.entity.Role;
+import me.shopian.shopian3.entity.Shop;
 import me.shopian.shopian3.entity.User;
+import me.shopian.shopian3.util.ColumnDirection;
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 
 @Repository("userDao")
@@ -45,5 +54,24 @@ public class UserDaoImpl implements UserDao {
             }
         }
         return user;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<User> list(String roleName) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(User.class);
+        List<User> res= new ArrayList<>();
+        if (roleName!=null&&!roleName.isEmpty()){
+            Role role = (Role) this.sessionFactory.getCurrentSession().get(Role.class,roleName);
+
+            for(User user: (List<User>)criteria.list()) {
+                Hibernate.initialize(user.getRoles());
+                if (role!=null &&  user.getRoles().contains(role)){
+                    res.add(user);
+                }
+            }
+        }
+        return res;
     }
 }

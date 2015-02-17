@@ -63,4 +63,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 ((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal()).getUsername());
     }
+
+    @Override
+    public Collection<User> list(String roleName) {
+        return userDao.list(roleName);
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userDao.findUserByUsername(username);
+    }
 }

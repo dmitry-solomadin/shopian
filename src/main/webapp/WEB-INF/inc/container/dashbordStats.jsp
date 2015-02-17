@@ -9,7 +9,7 @@
                 <div class="number" id="countClient"></div>
                 <div class="desc">Клиенты</div>
             </div>
-            <a class="more" href="/client">перейти<i class="m-icon-swapright m-icon-white"></i></a>
+            <a class="more" href="#">перейти<i class="m-icon-swapright m-icon-white"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -19,7 +19,7 @@
                 <div class="number" id="countBeacon"></div>
                 <div class="desc">Маячки</div>
             </div>
-            <a class="more" href="/beacon">перейти<i class="m-icon-swapright m-icon-white"></i></a>
+            <a class="more" href="#">перейти<i class="m-icon-swapright m-icon-white"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -29,7 +29,7 @@
                 <div class="number" id="countShop"></div>
                 <div class="desc">Магазины</div>
             </div>
-            <a class="more" href="/shop">перейти<i class="m-icon-swapright m-icon-white"></i></a>
+            <a class="more" href="#">перейти<i class="m-icon-swapright m-icon-white"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -42,7 +42,7 @@
                 <div class="number" id="countApi"></div>
                 <div class="desc">Обращений к API</div>
             </div>
-            <a class="more" href="/action">подробнее<i class="m-icon-swapright m-icon-white"></i>
+            <a class="more" href="#">подробнее<i class="m-icon-swapright m-icon-white"></i>
             </a>
         </div>
     </div>

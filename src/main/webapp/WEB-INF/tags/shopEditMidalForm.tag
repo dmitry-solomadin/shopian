@@ -34,7 +34,7 @@
                             <input type="text" class="form-input form-control" id="department" placeholder="отдел" required="true">
                         </div>
                         <div class="col-md-3 col-sm-3">
-                            <button type="submit" class="btn btn-default pull-right">добавить отдел<i class="fa fa-plus"></i></button>
+                            <button type="submit" class="btn btn-default pull-right"><i class="fa fa-plus"> добавить отдел</i></button>
                         </div>
                     </div>
                 </form>

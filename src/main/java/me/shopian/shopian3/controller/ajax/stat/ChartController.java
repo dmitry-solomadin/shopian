@@ -2,12 +2,12 @@ package me.shopian.shopian3.controller.ajax.stat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
-
 @Controller
 @RequestMapping("/ajax/stat/chart")
 public class ChartController {
