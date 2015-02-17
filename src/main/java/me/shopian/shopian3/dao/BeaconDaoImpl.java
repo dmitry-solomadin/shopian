@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public class BeaconDaoImpl implements BeaconDao {
     private SessionFactory sessionFactory;
 
@@ -27,6 +26,7 @@ public class BeaconDaoImpl implements BeaconDao {
     private static Logger logger = LoggerFactory.getLogger(BeaconDaoImpl.class);
 
     @Override
+    @Transactional
     public void add(Beacon beacon) {
         Session session = this.sessionFactory.getCurrentSession();
         session.persist(beacon);
@@ -34,6 +34,7 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
+    @Transactional
     public void update(Beacon beacon) {
         Session session = this.sessionFactory.getCurrentSession();
         session.update(beacon);
@@ -41,36 +42,40 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Beacon> list() {
         Session session = this.sessionFactory.getCurrentSession();
         return session.createQuery("from Beacon").list();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Beacon> list(int start, int length, List<ColumnDirection> sortColumns, String search) {
         Session session = this.sessionFactory.getCurrentSession();
-//        Query query = session.createQuery("from Beacon");
         Criteria criteria = session.createCriteria(Beacon.class);
-        criteria.addQueryHint("from Beacon")
-                .setFirstResult(start)
-                .setMaxResults(length);
-
-        if (sortColumns != null) for (ColumnDirection cd : sortColumns) {
-            if (cd.isDesc()) {
-                criteria.addOrder(Order.desc(cd.getColumn()));
-            } else {
-                criteria.addOrder(Order.asc(cd.getColumn()));
+        if (start > 0) {
+            criteria.setFirstResult(start);
+        }
+        if (length>0){
+            criteria.setMaxResults(length);
+        }
+        if (search!=null&&!search.isEmpty()){
+            criteria.add(Restrictions.like("uuid", "%" + search +"%"));
+        }
+        if (sortColumns != null) {
+            for (ColumnDirection cd : sortColumns) {
+                if (cd.isDesc()) {
+                    criteria.addOrder(Order.desc(cd.getColumn()));
+                } else {
+                    criteria.addOrder(Order.asc(cd.getColumn()));
+                }
             }
         }
-        System.out.println("criteria2 = " + criteria);
-//        query.setFirstResult(start);
-//        query.setMaxResults(length);
-//        return session.createQuery("from Beacon").list();
-
         return criteria.list();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long count() {
         Session session = this.sessionFactory.getCurrentSession();
         return (long) session.createQuery("select count(*) from Beacon").uniqueResult();
@@ -80,6 +85,7 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Beacon getBayUuidMajorMinor(Beacon beacon) {
         Session session = this.sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Beacon.class);
@@ -92,21 +98,19 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Beacon get(long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Beacon beacon = (Beacon) session.load(Beacon.class, id);
-        logger.info(beacon.toString());
-        return beacon;
+        return (Beacon) session.get(Beacon.class, id);
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         Session session = this.sessionFactory.getCurrentSession();
         Beacon beacon = (Beacon) session.load(Beacon.class, id);
-        logger.info(beacon.toString());
         if (beacon != null) {
             session.delete(beacon);
         }
-        logger.info(beacon.toString());
     }
 }

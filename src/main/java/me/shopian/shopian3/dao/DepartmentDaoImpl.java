@@ -2,12 +2,18 @@ package me.shopian.shopian3.dao;
 
 import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Repository
 public class DepartmentDaoImpl implements DepartmentDao{
@@ -60,5 +66,14 @@ public class DepartmentDaoImpl implements DepartmentDao{
     public Department get(long id) {
         Session session = this.sessionFactory.getCurrentSession();
         return (Department) session.get(Department.class, id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection list(long shopId) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Shop shop=(Shop) session.get(Shop.class, shopId);
+        if (shop!=null) return shop.getDepartments();
+        else return new ArrayList();
     }
 }

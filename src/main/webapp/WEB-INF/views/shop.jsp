@@ -40,7 +40,9 @@
                                 <i class="icon-basket"></i> Магазины</div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse"></a>
-                                <%--<a href="#portlet-config" data-toggle="modal" class="config"></a>--%>
+                                <a href="javascript:;" class="fullscreen"></a>
+
+                            <%--<a href="#portlet-config" data-toggle="modal" class="config"></a>--%>
                                 <a href="javascript:;" class="reload"></a>
                                 <%--<a href="javascript:;" class="remove"></a>--%>
                             </div>
@@ -80,10 +82,11 @@
                                         <input type="text" class="form-input form-control" id="address" placeholder="адрес" >
                                     </div>
                                     <div class="col-md-2 col-sm-2">
-                                        <button type="submit" class="btn btn-success blue pull-right">Добавить <i class="fa fa-plus"></i></button>
+                                        <button type="submit" class="btn btn-success blue pull-right"><i class="fa fa-plus"> Добавить</i></button>
                                     </div>
                                 </div>
                             </form>
+                            <hr/>
                             <%--</div>--%>
 
                         </div>
@@ -148,7 +151,7 @@
                     url: "/ajax/shop/"+id,
                     type: "DELETE",
                     success: function (data) {
-                        if (data["error"]) alert(data["error"]) // TODO out error to label and pretty alert
+                        if (data["error"]) alert(data["error"])
                         $(".reload").click();
                     },
                     error: function (request, status, error) {
@@ -179,7 +182,7 @@
                 [5, 10, 15, 25, 50, 100, "All"] // change per page values here
             ],
            aoColumnDefs: [
-               { 'bSortable': false, 'aTargets': [ -1 ] }
+               { 'bSortable': false, 'aTargets': [ -1, -2 ] }
            ],
             pageLength: 10,
             order: [
@@ -218,7 +221,7 @@
                 type: "POST",
                 contentType: 'application/json',
                 success: function (data) {
-                    if (data["error"]) alert(data["error"]) // TODO out error to label and pretty alert
+                    if (data["error"]) alert(data["error"])
                     $(".reload").click();
                     $('#title').val('')
                     $('#address').val('')
@@ -231,11 +234,8 @@
 
 </script>
 
-<%-- END JAVASCRIPTS --%>
 
-
-
-<tags:shopEditMidalForm/>
+<tags:shopEditModalForm/>
 
 
 

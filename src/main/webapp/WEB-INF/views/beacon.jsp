@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="metronicUrl" value="http://static.lafox.net/metronic-3.3.1" scope="request"/>
-<c:set var="title" value="Маячок" scope="request"/>
+<c:set var="title" value="Маячки" scope="request"/>
 
 <tags:metronicHead title="${title}"/>
 <%--
@@ -47,32 +47,16 @@
                     <div class="portlet box blue">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-edit"></i>Editable Table
-                            </div>
+                                <i class="icon-pointer"></i>  iBeacon's</div>
                             <div class="tools">
-                                <a href="javascript:;" class="collapse">
-                                </a>
-                                <a href="#portlet-config" data-toggle="modal" class="config">
-                                </a>
-                                <a href="javascript:;" class="reload">
-                                </a>
-                                <a href="javascript:;" class="remove">
-                                </a>
+                                <a href="javascript:;" class="collapse"></a>
+                                <a href="javascript:;" class="fullscreen"></a>
+                                <%--<a href="#portlet-config" data-toggle="modal" class="config"></a>--%>
+                                <a href="javascript:;" class="reload"></a>
+                                <%--<a href="javascript:;" class="remove"></a>--%>
                             </div>
                         </div>
                         <div class="portlet-body">
-                            <div class="table-toolbar">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="btn-group">
-                                            <button id="sample_editable_1_new" class="btn green">
-                                                Add New <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
 
                             <table class="table table-striped table-hover table-bordered" id="aTable">
                                 <thead>
@@ -84,7 +68,7 @@
                                     <th>user</th>
                                     <th>shop</th>
                                     <th>department</th>
-                                    <th>edit/delite</th>
+                                    <th>edit</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -96,58 +80,46 @@
                 </div>
             </div>
 
-
-            <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <h4>Добавить новый iBeacon</h4>
-
-                    <form class="form-inline" role="form" id="formAddBeacon">
-                        <div class="form-group">
-                            <label class="sr-only" for="uuid">UUID</label>
-
-                            <div class="input-icon">
-                                <i class="icon-pointer"></i>
-                                <input type="text" class="form-control" id="uuid" placeholder="Введите UUID" required="true" size="40">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="major">major</label>
-
-                            <div class="input-icon">
-                                <i class=" fa-check-circle-o"></i>
-                                <input type="number" class="form-control" id="major" placeholder="major" min="1" required="true" size="8" style="width: 12em">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="minor">minor</label>
-
-                            <div class="input-icon">
-                                <i class=" fa-check-circle-o"></i>
-                                <input type="number" class="form-control" id="minor" placeholder="minor" min="1" required="true" style="width: 12em">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" required="true" id="user">
-                                <option value="">--- user ---</option>
-                                <c:forEach var="user" items="${users}">
-                                    <option value="${user.username}">${user.username}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" required="true" id="shop">
-                                <option value="">--- магазин ---</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" id="department">
-                                <option value="">--- отдел ---</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-default">Добавить</button>
-                    </form>
+            <hr/>
+            <form class="form" role="form" id="formAddBeacon">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" class="form-input form-control" id="uuid" placeholder="Введите UUID" required="true" size="32">
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <input type="number" class="form-input form-control" id="major" placeholder="major" min="1" required="true">
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <input type="number" class="form-input form-control" id="minor" placeholder="minor" min="1" required="true">
+                    </div>
                 </div>
-            </div>
+                <div class="row">
+                <div class="col-md-3 col-sm-3"><br/></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-3">
+                        <select class="form-input form-control" required="true" id="user">
+                            <option value="">--- user ---</option>
+                            <c:forEach var="user" items="${users}">
+                                <option value="${user.username}">${user.username}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <select class="form-input form-control" required="true" id="shop">
+                            <option value="">--- магазин ---</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <select class="form-input form-control" id="department">
+                            <option value="">--- отдел ---</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <button type="submit" class="btn btn-success blue pull-right"><i class="fa fa-plus"></i> Добавить iBeacon</button>
+                    </div>
+                </div>
+            </form>
         </div>
         <!-- END CONTENT -->
 
@@ -162,6 +134,8 @@
 
 <%--<link rel="stylesheet" type="text/css" href="${metronicUrl}/assets/global/plugins/select2/select2.css"/>--%>
 <%--<script type="text/javascript" src="${metronicUrl}/assets/global/plugins/select2/select2.min.js"></script>--%>
+<script type="text/javascript" src="${metronicUrl}/assets/global/plugins/bootbox/bootbox.min.js"></script>
+
 
 <link rel="stylesheet" type="text/css" href="${metronicUrl}/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
 <script type="text/javascript" src="${metronicUrl}/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
@@ -188,53 +162,73 @@
     });
 
     function editRow(oTable, nRow) {
-        var aData = oTable.fnGetData(nRow);
-        var jqTds = $('>td', nRow);
-//        jqTds[0].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[0] + '">';
-        jqTds[1].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[1] + '">';
-        jqTds[2].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[2] + '">';
-        jqTds[3].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[3] + '">';
-        jqTds[4].innerHTML = '<a class="edit" href="">Save</a> <a class="cancel" href="">Cancel</a>';
     }
     function edit(id){
         alert(id)
     }
-    $(document).ready(function () {
-        var shops={}
-        $("#user").change(function() {
-            if ($("#user").val()){
+    function delRow(id,title){
+        bootbox.confirm("Удалить iBeacon: '"+title+"'?", function(result) {
+            if (result==true){
                 $.ajax({
-                    url: "/ajax/beacon/shops.json",
-                    data: JSON.stringify({username:$("#user").val()}),
-                    type: "POST",
-                    contentType: 'application/json',
+                    url: "/ajax/beacon/"+id,
+                    type: "DELETE",
                     success: function (data) {
-                        shops=data;
                         if (data["error"]) alert(data["error"])
-                        $('#shop').empty().append(new Option("--- магазин ---", ""))
-                        $.each(data, function(i, item) {
-                            $("#shop").append(new Option(item['title'], item['id']));
-                        });
+                        $(".reload").click();
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
                     }
                 });
             }
         });
-        $("#shop").change(function() {
-            $('#department').empty().append(new Option("--- отдел ---", ""))
-            $.each(shops, function(i, item) {
-                if (item["id"]==$("#shop").val()){
-                    $.each(item["departments"], function(i, item) {
-                        $("#department").append(new Option(item['title'], item['id']));
-                    });
-                }
-            })
-        });
-    })
-    $(document).ready(function () {
-        var table=$('#aTable')
-       var oTable= table.dataTable({
-           serverSide: true,
+    }
 
+    function reloadDepartments(shopId,obj, selected){
+        obj.empty().append(new Option("--- отдел ---", ""))
+        if (!shopId) return
+        $.ajax({
+            url: "/ajax/beacon/departments.json",
+            data: JSON.stringify({id:shopId}),
+            type: "POST",
+            contentType: 'application/json',
+            success: function (data) {
+                if (data["error"]) alert(data["error"])
+                $.each(data, function(i, item) {
+                    obj.append(new Option(item['title'], item['id']))
+                });
+                if(selected)  obj.val(selected)
+            }
+        })
+    }
+    function reloadShops(username,obj, selected){
+        obj.empty().append(new Option("--- магазин ---", ""))
+        if (!username) return;
+        $.ajax({
+            url: "/ajax/beacon/shops.json",
+            data: JSON.stringify({username:username}),
+            type: "POST",
+            contentType: 'application/json',
+            success: function (data) {
+                if (data["error"]) alert(data["error"])
+                $.each(data, function(i, item) {
+                    obj.append(new Option(item['title'], item['id']))
+                });
+                if(selected)  obj.val(selected)
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $("#user").change(function() {
+            reloadShops($("#user").val(),$("#shop"))
+        });
+        $("#shop").change(function() {
+            reloadDepartments($("#shop").val(),$("#department"))
+        });
+
+       var table= $('#aTable').DataTable({
+           serverSide: true,
            ajax: {
                url: 'ajax/beacon/list.json',
                type: 'POST'
@@ -249,21 +243,32 @@
                 {"data": "department"},
                 {"data": "id"},
             ],
-            lengthMenu: [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
-            ],
-            pageLength: 5,
+           lengthMenu: [
+               [5, 10, 15, 25, 50, 100, -1],
+               [5, 10, 15, 25, 50, 100, "All"] // change per page values here
+           ],
+            pageLength: 10,
             order: [
-                [0, "asc"]
+                [0, "desc"]
             ],
+           aoColumnDefs: [
+               { 'bSortable': false, 'aTargets': [ -1,-2,-3,-4 ] }
+           ],
            fnRowCallback: function (nRow, aData, iDisplayIndex) {
-               $('td', nRow).eq(7).html('<button onclick="edit('+aData['id']+')"></button><a class="edit" href="javascript:;">Edit</a>' +
-               ' <a class="delete" href="javascript:;">Delete</a>')
+               $('td', nRow).eq(7).html('' +
+               '<button class="btn btn-primary btn-xs" onclick="editRow('+aData['id']+')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
+               '<button class="btn btn-danger  btn-xs" onclick="delRow('+aData['id']+',\''+aData['title']+'\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
+               '')
+               console.log(aData)
+               if (aData['department']) $('td', nRow).eq(6).html(aData['department']["title"])
+               if (aData['shop']) $('td', nRow).eq(5).html(aData['shop']["title"])
+               if (aData['user']) $('td', nRow).eq(4).html(aData['user']["username"])
            }
         });
 
-
+        $(".reload").click(function () {
+            table.ajax.reload( null, false );
+        })
 
         $('#formAddBeacon').submit(function (event) {
 
@@ -282,6 +287,7 @@
                 contentType: 'application/json',
                 success: function (data) {
                     if (data["error"]) alert(data["error"])
+                    $(".reload").click();
                 }
             });
             event.preventDefault();
@@ -290,6 +296,7 @@
 
 
 </script>
+<tags:beaconEditModalForm/>
 
 </body>
 </html>

@@ -55,7 +55,6 @@
 <script type="text/javascript">
     var departmentTable
     $(document).ready(function () {
-//        if ($('#modalId').val()) {
             departmentTable = $('#departmentTable').DataTable({
                 serverSide: true,
 
@@ -80,11 +79,8 @@
                     '<button class="btn btn-primary btn-xs" onclick="editDep(' + aData['id'] + ',\'' + aData['title'] + '\')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
                     '<button class="btn btn-danger  btn-xs" onclick="delDep(' + aData['id'] + ',\'' + aData['title'] + '\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
                     '')
-//               $('td', nRow).eq(4).html('<button onclick="edit('+aData['id']+')"></button><a class="edit" href="javascript:;">Edit</a>' +
-//               ' <a class="delete" href="javascript:;">Delete</a>')
                 }
             });
-//        }
 
         $('#modalShopForm').submit(function (event) {
             var id = $('#modalId').val();
@@ -98,7 +94,7 @@
                 type: "POST",
                 contentType: 'application/json',
                 success: function (data) {
-                    if (data["error"]) alert(data["error"]) // TODO out error to label and pretty alert
+                    if (data["error"]) alert(data["error"])
                     $(".reload").click();
                     $("#basicClose").click()
 
@@ -117,7 +113,7 @@
                 type: "POST",
                 contentType: 'application/json',
                 success: function (data) {
-                    if (data["error"]) alert(data["error"]) // TODO out error to label and pretty alert
+                    if (data["error"]) alert(data["error"])
                     departmentTable.ajax.reload();
                     $(".reload").click();
                     $('#department').val('')
@@ -154,7 +150,7 @@
                     url: "/ajax/department/"+id,
                     type: "DELETE",
                     success: function (data) {
-                        if (data["error"]) alert(data["error"]) // TODO out error to label and pretty alert
+                        if (data["error"]) alert(data["error"])
                         departmentTable.ajax.reload();
                         $(".reload").click();
                     },
@@ -177,7 +173,7 @@
                         type: "POST",
                         contentType: 'application/json',
                         success: function (data) {
-                            if (data["error"]) alert(data["error"]) // TODO out error to label and pretty alert
+                            if (data["error"]) alert(data["error"])
                             departmentTable.ajax.reload();
                             $(".reload").click();
                         }

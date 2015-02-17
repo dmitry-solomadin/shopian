@@ -2,11 +2,12 @@ package me.shopian.shopian3.service;
 
 import me.shopian.shopian3.dao.DepartmentDaoImpl;
 import me.shopian.shopian3.entity.Department;
-import me.shopian.shopian3.entity.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
 
 @Service
 @Transactional
@@ -37,5 +38,10 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Override
     public Department get(long id) {
         return departmentDao.get(id);
+    }
+
+    @Override
+    public Collection list(long shopId) {
+        return departmentDao.list(shopId);
     }
 }

@@ -52,7 +52,6 @@ public class ShopDaoImpl implements ShopDao {
     @Override
     @Transactional(readOnly = true)
     public List<Shop> list(User user, int start, int length, List<ColumnDirection> sortColumns, String search) {
-        System.out.println("user = [" + user + "], start = [" + start + "], length = [" + length + "], sortColumns = [" + sortColumns + "], search = [" + search + "]");
         Session session = this.sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Shop.class);
         criteria.add(Restrictions.eq("user",user));
@@ -75,14 +74,7 @@ public class ShopDaoImpl implements ShopDao {
                 }
             }
         }
-
-        List<Shop> list=criteria.list();
-        for(Shop shop:list){
-            Hibernate.initialize(shop.getUser());
-            Hibernate.initialize(shop.getDepartments());
-        }
-        System.out.println("list = " + list.size());
-        return list;
+        return criteria.list();
     }
 
     @Override

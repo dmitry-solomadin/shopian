@@ -24,7 +24,6 @@ public class Shop {
     private Collection<Department> departments=new ArrayList();
 
     @ManyToOne
-    @JsonIgnore
     private User user;
 
 
