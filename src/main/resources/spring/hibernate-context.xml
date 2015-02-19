@@ -74,4 +74,7 @@
     <bean id="myDepartmentDao" class="me.shopian.shopian3.dao.DepartmentDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="myAdDao" class="me.shopian.shopian3.dao.AdDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

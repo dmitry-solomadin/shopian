@@ -20,6 +20,8 @@ public interface ShopDao {
 
     public long count();
 
+    public long count(String search);
+
     public Shop get(long id);
 
     public Shop getByTitle(Shop shop);

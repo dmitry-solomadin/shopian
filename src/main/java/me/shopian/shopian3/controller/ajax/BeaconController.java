@@ -85,7 +85,7 @@ public class BeaconController {
         map.put("draw", draw);
         map.put("data", beaconService.list(start, length, DataTableUtils.getColumnDirectionList(request), searchText));
         map.put("recordsTotal", beaconService.count());
-        map.put("recordsFiltered", beaconService.count());
+        map.put("recordsFiltered", beaconService.count(searchText));
         return map;
     }
 

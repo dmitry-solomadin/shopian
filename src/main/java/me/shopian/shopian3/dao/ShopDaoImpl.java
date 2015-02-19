@@ -81,8 +81,19 @@ public class ShopDaoImpl implements ShopDao {
     @Transactional(readOnly = true)
     public long count() {
         Session session = this.sessionFactory.getCurrentSession();
-        return (long) session.createQuery("select count(*) from Shop").uniqueResult();
+        Criteria criteria = session.createCriteria(Shop.class);
+        return (long) criteria.setProjection(Projections.rowCount()).uniqueResult();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long count(String search) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Shop.class);
+        if (search!=null&&!search.isEmpty()){
+            criteria.add(Restrictions.like("title", "%" + search +"%"));
+        }
+        return (long) criteria.setProjection(Projections.rowCount()).uniqueResult();    }
 
     @Override
     @Transactional(readOnly = true)

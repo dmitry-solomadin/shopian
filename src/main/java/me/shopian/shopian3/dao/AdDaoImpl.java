@@ -1,6 +1,6 @@
 package me.shopian.shopian3.dao;
 
-import me.shopian.shopian3.entity.Beacon;
+import me.shopian.shopian3.entity.Ad;
 import me.shopian.shopian3.util.ColumnDirection;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -10,50 +10,41 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Repository
-public class BeaconDaoImpl implements BeaconDao {
+public class AdDaoImpl implements AdDao {
     private SessionFactory sessionFactory;
-
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     private static Logger logger = LoggerFactory.getLogger(BeaconDaoImpl.class);
-
     @Override
-    @Transactional
-    public void add(Beacon beacon) {
+    public void add(Ad ad) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.persist(beacon);
-        logger.info(beacon.toString());
+        session.persist(ad);
     }
 
     @Override
-    @Transactional
-    public void update(Beacon beacon) {
+    public void update(Ad ad) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.update(beacon);
-        logger.info(beacon.toString());
+        session.update(ad);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Beacon> list() {
+    public List<Ad> list() {
         Session session = this.sessionFactory.getCurrentSession();
-        return session.createQuery("from Beacon").list();
+        Criteria criteria = session.createCriteria(Ad.class);
+        return criteria.list();
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Beacon> list(int start, int length, List<ColumnDirection> sortColumns, String search) {
+    public List<Ad> list(int start, int length, List<ColumnDirection> sortColumns, String search) {
         Session session = this.sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Beacon.class);
+        Criteria criteria = session.createCriteria(Ad.class);
+
         if (start > 0) {
             criteria.setFirstResult(start);
         }
@@ -61,7 +52,7 @@ public class BeaconDaoImpl implements BeaconDao {
             criteria.setMaxResults(length);
         }
         if (search!=null&&!search.isEmpty()){
-            criteria.add(Restrictions.like("uuid", "%" + search +"%"));
+            criteria.add(Restrictions.like("title", "%" + search +"%"));
         }
         if (sortColumns != null) {
             for (ColumnDirection cd : sortColumns) {
@@ -76,50 +67,35 @@ public class BeaconDaoImpl implements BeaconDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public long count() {
         Session session = this.sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Beacon.class);
+        Criteria criteria = session.createCriteria(Ad.class);
         return (long) criteria.setProjection(Projections.rowCount()).uniqueResult();
     }
 
     @Override
     public long count(String search) {
         Session session = this.sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Beacon.class);
+        Criteria criteria = session.createCriteria(Ad.class);
+        System.out.println("search = " + search);
         if (search!=null&&!search.isEmpty()){
-            criteria.add(Restrictions.like("uuid", "%" + search +"%"));
+            criteria.add(Restrictions.like("title", "%" + search + "%"));
         }
         return (long) criteria.setProjection(Projections.rowCount()).uniqueResult();
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Beacon getBayUuidMajorMinor(Beacon beacon) {
+    public Ad get(long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Beacon.class);
-        Beacon beacon2 = (Beacon) criteria
-                .add(Restrictions.eq("uuid", beacon.getUuid()))
-                .add(Restrictions.eq("major", beacon.getMajor()))
-                .add(Restrictions.eq("minor", beacon.getMinor()))
-                .uniqueResult();
-        return beacon2;
+        return (Ad) session.get(Ad.class, id);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Beacon get(long id) {
-        Session session = this.sessionFactory.getCurrentSession();
-        return (Beacon) session.get(Beacon.class, id);
-    }
-
-    @Override
-    @Transactional
     public void delete(long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Beacon beacon = (Beacon) session.load(Beacon.class, id);
-        if (beacon != null) {
-            session.delete(beacon);
+        Ad ad = (Ad) session.load(Ad.class, id);
+        if (ad != null) {
+            session.delete(ad);
         }
     }
 }

@@ -34,6 +34,7 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Override
     @Transactional(readOnly = true)
     public User findUserByUsername(String username) {
         Session session = sessionFactory.getCurrentSession();

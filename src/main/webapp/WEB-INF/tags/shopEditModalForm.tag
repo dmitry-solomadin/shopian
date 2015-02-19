@@ -65,7 +65,7 @@
                 paging: false,
                 searching: false,
                 aoColumnDefs: [
-                    {'bSortable': false, 'aTargets': [-1]}
+                    {'bSortable': false, 'aTargets': [-1,-2]}
                 ],
                 columns: [
                     {"data": "title"},

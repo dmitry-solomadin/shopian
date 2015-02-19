@@ -21,41 +21,46 @@ public class BeaconServiceImpl implements BeaconService {
 
     @Override
     public void add(Beacon beacon) {
-        this.beaconDao.add(beacon);
+        beaconDao.add(beacon);
     }
 
     @Override
     public void update(Beacon beacon) {
-        this.beaconDao.update(beacon);
+        beaconDao.update(beacon);
     }
 
     @Override
     public List<Beacon> list() {
-        return this.beaconDao.list();
+        return beaconDao.list();
     }
 
     @Override
     public List<Beacon> list(int start, int length, List<ColumnDirection> sortColumns, String search) {
-        return this.beaconDao.list(start, length, sortColumns, search);
+        return beaconDao.list(start, length, sortColumns, search);
     }
 
     @Override
     public long count() {
-        return this.beaconDao.count();
+        return beaconDao.count();
+    }
+
+    @Override
+    public long count(String search) {
+        return beaconDao.count(search);
     }
 
     @Override
     public Beacon getBayUuidMajorMinor(Beacon beacon) {
-        return this.beaconDao.getBayUuidMajorMinor(beacon);
+        return beaconDao.getBayUuidMajorMinor(beacon);
     }
 
     @Override
     public Beacon get(long id) {
-        return this.beaconDao.get(id);
+        return beaconDao.get(id);
     }
 
     @Override
     public void delete(long id) {
-        this.beaconDao.delete(id);
+        beaconDao.delete(id);
     }
 }

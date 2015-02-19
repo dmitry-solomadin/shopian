@@ -1,7 +1,6 @@
 package me.shopian.shopian3.service;
 
 import me.shopian.shopian3.dao.ShopDao;
-import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
 import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.util.ColumnDirection;
@@ -43,6 +42,11 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public long count() {
         return shopDao.count();
+    }
+
+    @Override
+    public long count(String search) {
+        return shopDao.count(search);
     }
 
     @Override

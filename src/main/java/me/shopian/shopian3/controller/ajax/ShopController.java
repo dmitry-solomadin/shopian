@@ -15,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/ajax/shop")
@@ -85,7 +82,7 @@ public class ShopController {
         map.put("draw", draw);
         map.put("data", l);
         map.put("recordsTotal", shopService.count());
-        map.put("recordsFiltered", shopService.count());
+        map.put("recordsFiltered", shopService.count(searchText));
         return map;
     }
 
@@ -104,17 +101,23 @@ public class ShopController {
 
     @RequestMapping(value = "departments.json")
     @ResponseBody
-    public Map departments(@RequestParam(value = "id", required = false, defaultValue = "0") long id) {
-        Map map = new HashMap();
-        map.put("data", new ArrayList());
-        if (id < 1) return map;
-
+    public Map departments(
+            @RequestParam(value = "id", required = false, defaultValue = "0") long id,
+            @RequestParam(value = "draw", required = false, defaultValue = "0") int draw
+    ) {
         Shop shop = shopService.get(id);
-        System.out.println("shop = " + shop);
 
+        Collection list=null;
         if (shop != null) {
-            map.put("data", shop.getDepartments());
+            list=shop.getDepartments();
         }
+        if (list==null) list=new ArrayList();
+
+        Map map = new HashMap();
+        map.put("draw", draw);
+        map.put("data", list);
+        map.put("recordsTotal", list.size());
+        map.put("recordsFiltered", list.size());
         return map;
     }
 
