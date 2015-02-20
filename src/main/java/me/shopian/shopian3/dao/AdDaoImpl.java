@@ -45,6 +45,7 @@ public class AdDaoImpl implements AdDao {
     public List<Ad> list(User user) {
         Session session = this.sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Ad.class);
+        criteria.add(Restrictions.eq("user", user));
         return criteria.list();
     }
 
@@ -53,6 +54,7 @@ public class AdDaoImpl implements AdDao {
     public List<Ad> list(User user, int start, int length, List<ColumnDirection> sortColumns, String search) {
         Session session = this.sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Ad.class);
+        criteria.add(Restrictions.eq("user", user));
 
         if (start > 0) {
             criteria.setFirstResult(start);

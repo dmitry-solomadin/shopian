@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,15 +54,17 @@ public class AdController {
         ad.setTitle(map.get("title"));
         ad.setPushText(map.get("pushText"));
         ad.setContent(map.get("content"));
-        ad.setUser(userService.findUserByUsername(map.get("user")));
+//        ad.setUser(userService.findUserByUsername(map.get("user")));
         ad.setShop(shopService.get(NumberUtils.toLong(map.get("shop"))));
         ad.setDepartment(departmentService.get(NumberUtils.toLong(map.get("department"))));
 
         try {
             ad.setDateStart(format.parse(map.get("dateStart")));
+        } catch (ParseException e) {}
+
+        try {
             ad.setDateStop(format.parse(map.get("dateStop")));
-        } catch (ParseException e) {
-        }
+        } catch (ParseException e) {}
         return ad;
     }
 
@@ -115,18 +119,32 @@ public class AdController {
     @RequestMapping(value = "info.json")
     @ResponseBody
     public Ad list(@RequestParam(value = "id", required = true) long id) {
-        Map map = new HashMap();
         return adService.get(id);
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map update(@RequestBody Map<String,String> adMap) {
+
         Ad ad=  mapToBeacon(adMap, adService.get(NumberUtils.toLong(adMap.get("id"))));
         adService.update(ad);
         Map map = new HashMap();
         return map;
     }
+    @RequestMapping(value = "/uploadImg", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
+    public Map<String, String> handleFormUpload(@RequestParam("id") long id, @RequestParam("file") MultipartFile file) {
+        System.out.println("id = [" + id + "], file = [" + file + "]");
+        Map<String, String> map = new HashMap();
+        try {
+            Ad ad=adService.get(id);
+            ad.setImg(file.getBytes());
+            adService.update(ad);
+        } catch (IOException e) {
+            map.put("error", "IOException:"+e.getMessage());
+        }
 
+        return map;
+    }
 
 }
