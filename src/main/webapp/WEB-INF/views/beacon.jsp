@@ -141,7 +141,7 @@
 <script type="text/javascript" src="${metronicUrl}/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${metronicUrl}/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
 
-<script src="/resources/js/table-beacon.js" type="text/javascript"></script>
+<script src="/resources/js/formFunctions.js" type="text/javascript"></script>
 <script type="text/javascript">
     jQuery(document).ready(function () {
         Metronic.init(); // init metronic core componets
@@ -184,47 +184,14 @@
         });
     }
 
-    function reloadDepartments(shopId,obj, selected){
-        obj.empty().append(new Option("--- отдел ---", ""))
-        if (!shopId) return
-        $.ajax({
-            url: "/ajax/beacon/departments.json",
-            data: JSON.stringify({id:shopId}),
-            type: "POST",
-            contentType: 'application/json',
-            success: function (data) {
-                if (data["error"]) alert(data["error"])
-                $.each(data, function(i, item) {
-                    obj.append(new Option(item['title'], item['id']))
-                });
-                if(selected)  obj.val(selected)
-            }
-        })
-    }
-    function reloadShops(username,obj, selected){
-        obj.empty().append(new Option("--- магазин ---", ""))
-        if (!username) return;
-        $.ajax({
-            url: "/ajax/beacon/shops.json",
-            data: JSON.stringify({username:username}),
-            type: "POST",
-            contentType: 'application/json',
-            success: function (data) {
-                if (data["error"]) alert(data["error"])
-                $.each(data, function(i, item) {
-                    obj.append(new Option(item['title'], item['id']))
-                });
-                if(selected)  obj.val(selected)
-            }
-        })
-    }
+
 
     $(document).ready(function () {
         $("#user").change(function() {
-            reloadShops($("#user").val(),$("#shop"))
+            reloadShopsAdmin($("#user").val(),$("#shop"))
         });
         $("#shop").change(function() {
-            reloadDepartments($("#shop").val(),$("#department"))
+            reloadDepartmentsAdmin($("#shop").val(),$("#department"))
         });
 
        var table= $('#aTable').DataTable({
@@ -296,7 +263,7 @@
 
 
 </script>
-<tags:beaconEditModalForm/>
+<tags:modalFormBeacon/>
 
 </body>
 </html>

@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
+/** //from asana
  * Название
  * Дата начала
- * Дата окончания
  * Push text
  * Описание
+ * Дата окончания
  * Картинка
  */
 
@@ -39,6 +39,21 @@ public class Ad {
     @Basic(fetch = FetchType.LAZY)
     @Column(columnDefinition = "LONGBLOB")
     private byte[] img;
+
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Shop shop;
+
+    @ManyToOne
+    private Department department;
+
+    public Ad(){}
+    public Ad(String title, User user) {
+        this.title = title;
+        this.user = user;
+    }
 
     public long getId() {
         return id;
@@ -94,6 +109,30 @@ public class Ad {
 
     public void setImg(byte[] img) {
         this.img = img;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
 

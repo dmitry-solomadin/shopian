@@ -55,32 +55,27 @@
 <script type="text/javascript">
     var departmentTable
     $(document).ready(function () {
-            departmentTable = $('#departmentTable').DataTable({
-                serverSide: true,
-
-                ajax: {
-                    url: '/ajax/shop/departments.json?id=0',
-                    type: 'POST'
-                },
-                paging: false,
-                searching: false,
-                aoColumnDefs: [
-                    {'bSortable': false, 'aTargets': [-1,-2]}
-                ],
-                columns: [
-                    {"data": "title"},
-                    {"data": "id"},
-                ],
-                order: [
-                    [0, "desc"]
-                ],
-                fnRowCallback: function (nRow, aData, iDisplayIndex) {
-                   $('td', nRow).eq(1).html('' +
-                    '<button class="btn btn-primary btn-xs" onclick="editDep(' + aData['id'] + ',\'' + aData['title'] + '\')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
-                    '<button class="btn btn-danger  btn-xs" onclick="delDep(' + aData['id'] + ',\'' + aData['title'] + '\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
-                    '')
-                }
-            });
+        departmentTable = $('#departmentTable').DataTable({
+            serverSide: true,
+            ajax: {
+                url: '/ajax/shop/departments.json?id=0',
+                type: 'POST'
+            },
+            paging: false,
+            searching: false,
+            aoColumnDefs: [{bSortable: false, aTargets: [-1, -2]}],
+            columns: [
+                {data: "title"},
+                {data: "id"},
+            ],
+            order: [[0, "desc"]],
+            fnRowCallback: function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).eq(1).html('' +
+                '<button class="btn btn-primary btn-xs" onclick="editDep(' + aData['id'] + ',\'' + aData['title'] + '\')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
+                '<button class="btn btn-danger  btn-xs" onclick="delDep(' + aData['id'] + ',\'' + aData['title'] + '\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
+                '')
+            }
+        });
 
         $('#modalShopForm').submit(function (event) {
             var id = $('#modalId').val();
@@ -134,7 +129,7 @@
                 $("#modalAddress").val(data['address'])
                 $(".mShopId").html(data['id'])
 
-                departmentTable.ajax.url( '/ajax/shop/departments.json?id=' + data['id'])
+                departmentTable.ajax.url('/ajax/shop/departments.json?id=' + data['id'])
                 departmentTable.ajax.reload();
                 $("#basic").modal()
             },
@@ -143,11 +138,11 @@
             }
         });
     }
-    function delDep(id,title){
-        bootbox.confirm("Удалить отдел '"+title+"'?", function(result) {
-            if (result==true){
+    function delDep(id, title) {
+        bootbox.confirm("Удалить отдел '" + title + "'?", function (result) {
+            if (result == true) {
                 $.ajax({
-                    url: "/ajax/department/"+id,
+                    url: "/ajax/department/" + id,
                     type: "DELETE",
                     success: function (data) {
                         if (data["error"]) alert(data["error"])
@@ -161,11 +156,11 @@
             }
         });
     }
-    function editDep(id,title){
+    function editDep(id, title) {
         bootbox.prompt({
-            title: "изменить название отдела \""+title+"\"",
+            title: "изменить название отдела \"" + title + "\"",
             value: title,
-            callback: function(result) {
+            callback: function (result) {
                 if (result !== null) {
                     $.ajax({
                         url: "/ajax/department/update",
@@ -181,7 +176,5 @@
                 }
             }
         })
-
-
     }
 </script>

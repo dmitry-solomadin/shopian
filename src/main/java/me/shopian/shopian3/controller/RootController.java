@@ -1,8 +1,8 @@
 package me.shopian.shopian3.controller;
 
-import me.shopian.shopian3.dao.UserDaoImpl;
 import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.service.ShopServiceImpl;
+import me.shopian.shopian3.service.UserService;
 import me.shopian.shopian3.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +21,9 @@ public class RootController {
     private static Logger logger = LoggerFactory.getLogger(RootController.class);
 
     @Qualifier("userDetailsService")
-    @Autowired
-    private UserServiceImpl userService;
+    @Autowired(required = true)
+    private UserService userService;
+
     @Qualifier("shopServiceImpl")
     @Autowired
     private ShopServiceImpl shopService;

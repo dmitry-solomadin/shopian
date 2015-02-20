@@ -40,13 +40,13 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public long count() {
-        return shopDao.count();
+    public long count(User user) {
+        return shopDao.count(user);
     }
 
     @Override
-    public long count(String search) {
-        return shopDao.count(search);
+    public long count(User user,String search) {
+        return shopDao.count(user,search);
     }
 
     @Override
@@ -55,8 +55,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Shop getByTitle(Shop shop) {
-        return shopDao.getByTitle(shop);
+    public Shop getByTitle(User user,String title) {
+        return shopDao.getByTitle(user,title);
     }
 
     @Override

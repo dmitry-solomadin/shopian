@@ -10,6 +10,8 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +19,11 @@ import java.util.List;
 
 @Repository
 public class BeaconDaoImpl implements BeaconDao {
-    private SessionFactory sessionFactory;
-
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
     private static Logger logger = LoggerFactory.getLogger(BeaconDaoImpl.class);
+
+    @Qualifier("sessionFactory")
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
     @Transactional
@@ -57,11 +56,11 @@ public class BeaconDaoImpl implements BeaconDao {
         if (start > 0) {
             criteria.setFirstResult(start);
         }
-        if (length>0){
+        if (length > 0) {
             criteria.setMaxResults(length);
         }
-        if (search!=null&&!search.isEmpty()){
-            criteria.add(Restrictions.like("uuid", "%" + search +"%"));
+        if (search != null && !search.isEmpty()) {
+            criteria.add(Restrictions.like("uuid", "%" + search + "%"));
         }
         if (sortColumns != null) {
             for (ColumnDirection cd : sortColumns) {
@@ -87,8 +86,8 @@ public class BeaconDaoImpl implements BeaconDao {
     public long count(String search) {
         Session session = this.sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Beacon.class);
-        if (search!=null&&!search.isEmpty()){
-            criteria.add(Restrictions.like("uuid", "%" + search +"%"));
+        if (search != null && !search.isEmpty()) {
+            criteria.add(Restrictions.like("uuid", "%" + search + "%"));
         }
         return (long) criteria.setProjection(Projections.rowCount()).uniqueResult();
     }

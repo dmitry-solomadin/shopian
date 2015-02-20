@@ -37,18 +37,18 @@
                     <div class="portlet box blue">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="icon-basket"></i> Магазины</div>
+                                <i class="icon-basket"></i> Магазины
+                            </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse"></a>
                                 <a href="javascript:;" class="fullscreen"></a>
 
-                            <%--<a href="#portlet-config" data-toggle="modal" class="config"></a>--%>
+                                <%--<a href="#portlet-config" data-toggle="modal" class="config"></a>--%>
                                 <a href="javascript:;" class="reload"></a>
                                 <%--<a href="javascript:;" class="remove"></a>--%>
                             </div>
                         </div>
                         <div class="portlet-body">
-
 
 
                             <table class="table table-striped table-hover table-bordered" id="aTable">
@@ -61,15 +61,6 @@
                                     <th>изменить</th>
                                 </tr>
                                 </thead>
-<%--                                <tfoot>
-                                <tr>
-                                    <th>id</th>
-                                    <th>title</th>
-                                    <th>address</th>
-                                    <th>departments</th>
-                                    <th>edit/delete</th>
-                                </tr>
-                                </tfoot>--%>
                             </table>
                             <hr/>
                             <%--<div class="table-toolbar">--%>
@@ -79,7 +70,7 @@
                                         <input type="text" class="form-input form-control" id="title" placeholder="Название" required="true">
                                     </div>
                                     <div class="col-md-6 col-sm-6">
-                                        <input type="text" class="form-input form-control" id="address" placeholder="адрес" >
+                                        <input type="text" class="form-input form-control" id="address" placeholder="адрес">
                                     </div>
                                     <div class="col-md-2 col-sm-2">
                                         <button type="submit" class="btn btn-success blue pull-right"><i class="fa fa-plus"> Добавить</i></button>
@@ -94,7 +85,6 @@
                     <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
             </div>
-
 
 
         </div>
@@ -144,11 +134,11 @@
     });
 
 
-    function delRow(id,title){
-        bootbox.confirm("Удалить магазин '"+title+"'?", function(result) {
-            if (result==true){
+    function delRow(id, title) {
+        bootbox.confirm("Удалить магазин '" + title + "'?", function (result) {
+            if (result == true) {
                 $.ajax({
-                    url: "/ajax/shop/"+id,
+                    url: "/ajax/shop/" + id,
                     type: "DELETE",
                     success: function (data) {
                         if (data["error"]) alert(data["error"])
@@ -163,58 +153,49 @@
     }
     var table
     $(document).ready(function () {
-       table= $('#aTable').DataTable({
-           serverSide: true,
-
-           ajax: {
-               url: '/ajax/shop/list.json',
-               type: 'POST'
-           },
+        table = $('#aTable').DataTable({
+            serverSide: true,
+            ajax: {
+                url: '/ajax/shop/list.json',
+                type: 'POST'
+            },
             columns: [
-                {"data": "id"},
-                {"data": "title"},
-                {"data": "address"},
-                {"data": "id"},
-                {"data": "id"},
+                {data: "id"},
+                {data: "title"},
+                {data: "address"},
+                {data: "id"},
+                {data: "id"},
             ],
             lengthMenu: [
                 [5, 10, 15, 25, 50, 100, -1],
-                [5, 10, 15, 25, 50, 100, "All"] // change per page values here
+                [5, 10, 15, 25, 50, 100, "All"]
             ],
-           aoColumnDefs: [
-               { 'bSortable': false, 'aTargets': [ -1, -2 ] }
-           ],
             pageLength: 10,
-            order: [
-                [0, "desc"]
-            ],
-           fnRowCallback: function (nRow, aData, iDisplayIndex) {
-               $('td', nRow).eq(4).html('' +
-               '<button class="btn btn-primary btn-xs" onclick="editRow('+aData['id']+')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
-               '<button class="btn btn-danger  btn-xs" onclick="delRow('+aData['id']+',\''+aData['title']+'\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
-               '')
-               var deps=""
-               $.each(aData['departments'], function(i, item){
-                   if (i>0) deps+=", "
-                   deps+=item['title']
-               });
-               $('td', nRow).eq(3).html(deps)
-           }
+            aoColumnDefs: [{bSortable: false, aTargets: [-1, -2]}],
+            order: [[0, "desc"]],
+            fnRowCallback: function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).eq(4).html('' +
+                '<button class="btn btn-primary btn-xs" onclick="editRow(' + aData['id'] + ')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
+                '<button class="btn btn-danger  btn-xs" onclick="delRow(' + aData['id'] + ',\'' + aData['title'] + '\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
+                '')
+                var deps = ""
+                $.each(aData['departments'], function (i, item) {
+                    if (i > 0) deps += ", "
+                    deps += item['title']
+                });
+                $('td', nRow).eq(3).html(deps)
+            }
         });
 
         $(".reload").click(function () {
-            table.ajax.reload( null, false );
+            table.ajax.reload(null, false);
         })
 
 
     })
     $(document).ready(function () {
         $('#formAddShop').submit(function (event) {
-
-            var title = $('#title').val();
-            var address = $('#address').val();
-            var json = {"title": title, "address": address};
-
+            var json = {title: $('#title').val(), address: $('#address').val()};
             $.ajax({
                 url: "/ajax/shop/add",
                 data: JSON.stringify(json),
@@ -230,13 +211,10 @@
             event.preventDefault();
         });
     });
-
-
 </script>
 
 
-<tags:shopEditModalForm/>
-
+<tags:modalFormShop/>
 
 
 </body>

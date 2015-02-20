@@ -2,6 +2,7 @@ package me.shopian.shopian3.controller.ajax;
 
 import me.shopian.shopian3.entity.Shop;
 import me.shopian.shopian3.entity.User;
+import me.shopian.shopian3.service.DepartmentServiceImpl;
 import me.shopian.shopian3.service.ShopService;
 import me.shopian.shopian3.service.UserService;
 import me.shopian.shopian3.util.DataTableUtils;
@@ -25,27 +26,30 @@ public class ShopController {
     @Qualifier("shopServiceImpl")
     @Autowired(required = true)
     private ShopService shopService;
+
     @Qualifier("userDetailsService")
     @Autowired(required = true)
     private UserService userService;
+
+    @Qualifier("departmentServiceImpl")
+    @Autowired(required = true)
+    private DepartmentServiceImpl departmentService;
 
 
     @RequestMapping(value = "add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map add(@RequestBody Shop shop) {
-        shop.setUser(userService.getCurrentUser());
+        User user=userService.getCurrentUser();
+        shop.setUser(user);
 
-        logger.info("Shop controller: " + shop);
         Map map = new HashMap();
-        Shop tmp = shopService.getByTitle(shop);
-        logger.info("tmp: " + tmp);
+        Shop tmp = shopService.getByTitle(user,shop.getTitle());
         if (tmp == null) {
             shopService.add(shop);
         } else {
             map.put("error", "Магазин '" + shop.getTitle() + "' уже есть ( id:" + tmp.getId() + " )");
         }
         map.put("shop", shop);
-        logger.info("shop " + shop);
         return map;
     }
 
@@ -77,12 +81,14 @@ public class ShopController {
             , @RequestParam(value = "length", required = false, defaultValue = "10") int length
             , @RequestParam(value = "search[value]", required = false, defaultValue = "") String searchText
     ) {
+        User user = userService.getCurrentUser();
+
         Map map = new HashMap();
-        List l = shopService.list(userService.getCurrentUser(), start, length, DataTableUtils.getColumnDirectionList(request), searchText);
+        List l = shopService.list(user, start, length, DataTableUtils.getColumnDirectionList(request), searchText);
         map.put("draw", draw);
         map.put("data", l);
-        map.put("recordsTotal", shopService.count());
-        map.put("recordsFiltered", shopService.count(searchText));
+        map.put("recordsTotal", shopService.count(user));
+        map.put("recordsFiltered", shopService.count(user,searchText));
         return map;
     }
 
@@ -139,6 +145,15 @@ public class ShopController {
         }
         return map;
     }
-
+    @RequestMapping(value = "shops.json", method = RequestMethod.POST)
+    @ResponseBody
+    public List shops()  {
+        return shopService.list(userService.getCurrentUser(), 0, 0, null, null);
+    }
+    @RequestMapping(value = "departments.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Collection shops(@RequestBody Shop shop)  {
+        return departmentService.list(shop.getId());
+    }
 
 }

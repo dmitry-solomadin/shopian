@@ -1,13 +1,13 @@
-package me.shopian.shopian3.dao;
+package me.shopian.shopian3.service;
 
 import me.shopian.shopian3.entity.Ad;
-import me.shopian.shopian3.entity.Beacon;
 import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.util.ColumnDirection;
 
 import java.util.List;
 
-public interface AdDao {
+
+public interface AdService {
     public void add(Ad ad);
     public void update(Ad ad);
     public List<Ad> list(User user);

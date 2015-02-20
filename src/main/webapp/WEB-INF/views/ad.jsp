@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="metronicUrl" value="http://static.lafox.net/metronic-3.3.1" scope="request"/>
-<c:set var="title" value="Магазины" scope="request"/>
+<c:set var="title" value="Акции" scope="request"/>
 
 <tags:metronicHead title="${title}"/>
 
@@ -20,7 +20,7 @@
 <div class="page-container">
     <div class="page-sidebar-wrapper">
         <div class="page-sidebar navbar-collapse collapse">
-            <tags:sidebarMenu selectedItem="shop"/></div>
+            <tags:sidebarMenu selectedItem="ad"/></div>
     </div>
 
     <!-- BEGIN CONTENT -->
@@ -37,12 +37,12 @@
                     <div class="portlet box blue">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="icon-basket"></i> Магазины</div>
+                                <i class="icon-rocket"></i> ${title}
+                            </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse"></a>
                                 <a href="javascript:;" class="fullscreen"></a>
-
-                            <%--<a href="#portlet-config" data-toggle="modal" class="config"></a>--%>
+                                <%--<a href="#portlet-config" data-toggle="modal" class="config"></a>--%>
                                 <a href="javascript:;" class="reload"></a>
                                 <%--<a href="javascript:;" class="remove"></a>--%>
                             </div>
@@ -50,51 +50,38 @@
                         <div class="portlet-body">
 
 
-
                             <table class="table table-striped table-hover table-bordered" id="aTable">
                                 <thead>
                                 <tr>
                                     <th>id</th>
                                     <th>название</th>
-                                    <th>адрес</th>
-                                    <th>отделы</th>
+                                    <th>push text</th>
+                                    <th>начало</th>
+                                    <th>окончание</th>
+                                    <th>магазин</th>
+                                    <th>отдел</th>
+                                    <th>описание</th>
                                     <th>изменить</th>
                                 </tr>
                                 </thead>
-<%--                                <tfoot>
-                                <tr>
-                                    <th>id</th>
-                                    <th>title</th>
-                                    <th>address</th>
-                                    <th>departments</th>
-                                    <th>edit/delete</th>
-                                </tr>
-                                </tfoot>--%>
                             </table>
                             <hr/>
-                            <%--<div class="table-toolbar">--%>
                             <form class="form" role="form" id="formAddShop">
                                 <div class="row">
-                                    <div class="col-md-4 col-sm-4">
-                                        <input type="text" class="form-input form-control" id="title" placeholder="Название" required="true">
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input type="text" class="form-input form-control" id="address" placeholder="адрес" >
+                                    <div class="col-md-10 col-sm-10">
+                                        <input type="text" class="form-input form-control" id="title" placeholder="название акции" required="true">
                                     </div>
                                     <div class="col-md-2 col-sm-2">
-                                        <button type="submit" class="btn btn-success blue pull-right"><i class="fa fa-plus"> Добавить</i></button>
+                                        <button type="submit" class="btn btn-success blue pull-right"><i class="fa fa-plus"> добавить</i></button>
                                     </div>
                                 </div>
                             </form>
                             <hr/>
-                            <%--</div>--%>
-
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
             </div>
-
 
 
         </div>
@@ -118,12 +105,14 @@
 <script type="text/javascript" src="${metronicUrl}/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${metronicUrl}/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
 
+<script type="text/javascript" src="${metronicUrl}/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+
 <%--<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css"/>--%>
 <%--<script type="text/javascript" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>--%>
 <%--<script type="text/javascript" src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>--%>
 
 
-<script src="/resources/js/table-beacon.js" type="text/javascript"></script>
+<script src="/resources/js/formFunctions.js" type="text/javascript"></script>
 <script type="text/javascript">
     jQuery(document).ready(function () {
         Metronic.init(); // init metronic core componets
@@ -131,24 +120,17 @@
         QuickSidebar.init(); // init quick sidebar
         Demo.init(); // init demo features
         Index.init();
-        Index.initDashboardDaterange();
-        Index.initCalendar(); // init index page's custom scripts
-//        Index.initCharts(); // init index page's custom scripts
-//        Index.initJQVMAP(); // init index page's custom scripts
-//        Index.initChat();
-//        Index.initMiniCharts();
-//        Tasks.initDashboardWidget();
-
-//        TableEditable.init();
+//        Index.initDashboardDaterange();
+//        Index.initCalendar(); // init index page's custom scripts
 
     });
 
 
-    function delRow(id,title){
-        bootbox.confirm("Удалить магазин '"+title+"'?", function(result) {
-            if (result==true){
+    function delRow(id, title) {
+        bootbox.confirm("Удалить акцию '" + title + "'?", function (result) {
+            if (result == true) {
                 $.ajax({
-                    url: "/ajax/shop/"+id,
+                    url: "/ajax/ad/" + id,
                     type: "DELETE",
                     success: function (data) {
                         if (data["error"]) alert(data["error"])
@@ -162,61 +144,53 @@
         });
     }
     var table
-    $(document).ready(function () {
-       table= $('#aTable').DataTable({
-           serverSide: true,
+    var format = "YYYY-MM-DD"
 
-           ajax: {
-               url: '/ajax/shop/list.json',
-               type: 'POST'
-           },
+    $(document).ready(function () {
+        table = $('#aTable').DataTable({
+            serverSide: true,
+            ajax: {
+                url: '/ajax/ad/list.json',
+                type: 'POST'
+            },
             columns: [
-                {"data": "id"},
-                {"data": "title"},
-                {"data": "address"},
-                {"data": "id"},
-                {"data": "id"},
+                {data: "id"},
+                {data: "title"},
+                {data: "pushText"},
+                {data: "dateStart"},
+                {data: "dateStop"},
+                {data: "shop"},
+                {data: "department"},
+                {data: "content"},
+                {data: "id"},
             ],
             lengthMenu: [
                 [5, 10, 15, 25, 50, 100, -1],
-                [5, 10, 15, 25, 50, 100, "All"] // change per page values here
+                [5, 10, 15, 25, 50, 100, "All"]
             ],
-           aoColumnDefs: [
-               { 'bSortable': false, 'aTargets': [ -1, -2 ] }
-           ],
             pageLength: 10,
-            order: [
-                [0, "desc"]
-            ],
-           fnRowCallback: function (nRow, aData, iDisplayIndex) {
-               $('td', nRow).eq(4).html('' +
-               '<button class="btn btn-primary btn-xs" onclick="editRow('+aData['id']+')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
-               '<button class="btn btn-danger  btn-xs" onclick="delRow('+aData['id']+',\''+aData['title']+'\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
-               '')
-               var deps=""
-               $.each(aData['departments'], function(i, item){
-                   if (i>0) deps+=", "
-                   deps+=item['title']
-               });
-               $('td', nRow).eq(3).html(deps)
-           }
+            aoColumnDefs: [{bSortable: false, aTargets: [-1, -2]}],
+            order: [[0, "desc"]],
+            fnRowCallback: function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).eq(8).html('' +
+                '<button class="btn btn-primary btn-xs" onclick="editRow(' + aData['id'] + ')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
+                '<button class="btn btn-danger  btn-xs" onclick="delRow(' + aData['id'] + ',\'' + aData['title'] + '\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
+                '')
+                if (aData['dateStart']) $('td', nRow).eq(3).html(moment.unix(aData['dateStart'] / 1000).format(format))
+                if (aData['dateStop']) $('td', nRow).eq(4).html(moment.unix(aData['dateStop'] / 1000).format(format))
+                $('td', nRow).eq(5).html((aData['shop'])?aData['shop']['title']:'')
+                $('td', nRow).eq(6).html((aData['department'])?aData['department']['title']:'')
+            }
         });
 
         $(".reload").click(function () {
-            table.ajax.reload( null, false );
+            table.ajax.reload(null, false);
         })
 
-
-    })
-    $(document).ready(function () {
         $('#formAddShop').submit(function (event) {
-
-            var title = $('#title').val();
-            var address = $('#address').val();
-            var json = {"title": title, "address": address};
-
+            var json = {title: $('#title').val()};
             $.ajax({
-                url: "/ajax/shop/add",
+                url: "/ajax/ad/add",
                 data: JSON.stringify(json),
                 type: "POST",
                 contentType: 'application/json',
@@ -224,20 +198,14 @@
                     if (data["error"]) alert(data["error"])
                     $(".reload").click();
                     $('#title').val('')
-                    $('#address').val('')
+                    editRow(data['ad']['id'])
                 }
             });
             event.preventDefault();
         });
     });
-
-
 </script>
 
-
-<tags:shopEditModalForm/>
-
-
-
+<tags:modalFormAd/>
 </body>
 </html>

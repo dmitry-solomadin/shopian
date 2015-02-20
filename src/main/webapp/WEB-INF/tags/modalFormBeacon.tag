@@ -93,10 +93,10 @@
             event.preventDefault();
         })
         $("#modalUser").change(function() {
-            reloadShops($("#modalUser").val(),$("#modalShop"))
+            reloadShopsAdmin($("#modalUser").val(),$("#modalShop"))
         });
         $("#modalShop").change(function() {
-            reloadDepartments($("#modalShop").val(),$("#modalDepartment"))
+            reloadDepartmentsAdmin($("#modalShop").val(),$("#modalDepartment"))
         });
     })
 
@@ -110,11 +110,11 @@
                 $("#modalMajor").val(data['major'])
                 $("#modalMinor").val(data['minor'])
                 $("#modalUser").val(data['user']['username'])
-                reloadShops(data['user']['username'],$('#modalShop'),data['shop']['id'])
+                reloadShopsAdmin(data['user']['username'],$('#modalShop'),data['shop']['id'])
                 if (data['department']){
-                    reloadDepartments(data['shop']['id'],$('#modalDepartment'),data['department']['id'])
+                    reloadDepartmentsAdmin(data['shop']['id'],$('#modalDepartment'),data['department']['id'])
                 }else{
-                    reloadDepartments(data['shop']['id'],$('#modalDepartment'))
+                    reloadDepartmentsAdmin(data['shop']['id'],$('#modalDepartment'))
                 }
 
                 $(".mBeaconId").html(data['id'])

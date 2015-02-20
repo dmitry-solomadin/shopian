@@ -28,9 +28,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-    @Qualifier("userDao")
+    @Qualifier("userDaoImpl")
     @Autowired
     private UserDaoImpl userDao;
+
 
     /**
      * Implementation of UserDetailsService interface's loadUserByUsername method. The returned 

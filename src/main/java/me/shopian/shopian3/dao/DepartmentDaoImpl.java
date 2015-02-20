@@ -2,37 +2,33 @@ package me.shopian.shopian3.dao;
 
 import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Repository
-public class DepartmentDaoImpl implements DepartmentDao{
-    private SessionFactory sessionFactory;
-
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
+public class DepartmentDaoImpl implements DepartmentDao {
     private static Logger logger = LoggerFactory.getLogger(ShopDaoImpl.class);
+
+    @Qualifier("sessionFactory")
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
     @Transactional
     public void add(long shopId, String departmentTitle) {
         Session session = this.sessionFactory.getCurrentSession();
-        Shop shop= (Shop) session.load(Shop.class, shopId);
+        Shop shop = (Shop) session.load(Shop.class, shopId);
 
-        Department department= new Department();
+        Department department = new Department();
         department.setTitle(departmentTitle);
         department.setShop(shop);
         session.persist(department);
@@ -45,8 +41,8 @@ public class DepartmentDaoImpl implements DepartmentDao{
     @Transactional
     public void del(long departmentId) {
         Session session = this.sessionFactory.getCurrentSession();
-        Department department= (Department)session.get(Department.class, departmentId);
-        Shop shop=department.getShop();
+        Department department = (Department) session.get(Department.class, departmentId);
+        Shop shop = department.getShop();
         shop.getDepartments().remove(department);
         session.update(shop);
         session.delete(department);
@@ -56,7 +52,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
     @Transactional
     public void update(long departmentId, String title) {
         Session session = this.sessionFactory.getCurrentSession();
-        Department department= (Department)session.get(Department.class, departmentId);
+        Department department = (Department) session.get(Department.class, departmentId);
         department.setTitle(title);
         session.update(department);
     }
@@ -72,8 +68,8 @@ public class DepartmentDaoImpl implements DepartmentDao{
     @Transactional(readOnly = true)
     public Collection list(long shopId) {
         Session session = this.sessionFactory.getCurrentSession();
-        Shop shop=(Shop) session.get(Shop.class, shopId);
-        if (shop!=null) return shop.getDepartments();
+        Shop shop = (Shop) session.get(Shop.class, shopId);
+        if (shop != null) return shop.getDepartments();
         else return new ArrayList();
     }
 }

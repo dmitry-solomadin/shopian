@@ -11,23 +11,12 @@ import java.util.List;
 
 public interface ShopDao {
     public void add(Shop shop);
-
     public void update(Shop shop);
-
     public List list(User user);
-
     public List<Shop> list(User user, int start, int length, List<ColumnDirection> sortColumns, String search);
-
-    public long count();
-
-    public long count(String search);
-
+    public long count(User user);
+    public long count(User user,String search);
     public Shop get(long id);
-
-    public Shop getByTitle(Shop shop);
-
+    public Shop getByTitle(User user,String title);
     public void delete(long id);
-
-
-
 }
