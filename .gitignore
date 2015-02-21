@@ -8,3 +8,4 @@ build/
 *.log
 *.log.*
 pom.iml
+src/main/resources/db.properties
