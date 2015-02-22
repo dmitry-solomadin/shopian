@@ -20,7 +20,7 @@
 <div class="page-container">
     <div class="page-sidebar-wrapper">
         <div class="page-sidebar navbar-collapse collapse">
-            <tags:sidebarMenu selectedItem="ad"/></div>
+            <tags:sidebarMenu selectedItem="campaign"/></div>
     </div>
 
     <!-- BEGIN CONTENT -->
@@ -130,7 +130,7 @@
         bootbox.confirm("Удалить акцию '" + title + "'?", function (result) {
             if (result == true) {
                 $.ajax({
-                    url: "/ajax/ad/" + id,
+                    url: "/ajax/campaign/" + id,
                     type: "DELETE",
                     success: function (data) {
                         if (data["error"]) alert(data["error"])
@@ -150,7 +150,7 @@
         table = $('#aTable').DataTable({
             serverSide: true,
             ajax: {
-                url: '/ajax/ad/list.json',
+                url: '/ajax/campaign/list.json',
                 type: 'POST'
             },
             columns: [
@@ -190,7 +190,7 @@
         $('#formAddShop').submit(function (event) {
             var json = {title: $('#title').val()};
             $.ajax({
-                url: "/ajax/ad/add",
+                url: "/ajax/campaign/add",
                 data: JSON.stringify(json),
                 type: "POST",
                 contentType: 'application/json',

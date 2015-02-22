@@ -77,9 +77,9 @@ DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed
             </a>
         </li>
     </sec:authorize>
-    <sec:authorize url="/ad">
-        <li class="${'ad'.equals(selectedItem)?' active':''}">
-            <a href="/ad">
+    <sec:authorize url="/campaign">
+        <li class="${'campaign'.equals(selectedItem)?' active':''}">
+            <a href="/campaign">
                 <i class="icon-rocket"></i>
                 <span class="title">Акции</span>
                 <span class="selected"></span>

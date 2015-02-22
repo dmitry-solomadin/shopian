@@ -3,7 +3,6 @@ package me.shopian.shopian3.controller;
 import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.service.ShopServiceImpl;
 import me.shopian.shopian3.service.UserService;
-import me.shopian.shopian3.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class RootController {
@@ -32,9 +28,9 @@ public class RootController {
     public String index(Model model) {
         return "index";
     }
-    @RequestMapping(method = RequestMethod.GET, value = {"ad"})
+    @RequestMapping(method = RequestMethod.GET, value = {"campaign"})
     public String ad(Model model) {
-        return "ad";
+        return "campaign";
     }
     @RequestMapping(method = RequestMethod.GET, value = {"shop"})
     public String shop(Model model) {

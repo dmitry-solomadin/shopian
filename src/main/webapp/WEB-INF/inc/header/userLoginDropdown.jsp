@@ -9,10 +9,9 @@
         <i class="fa fa-angle-down"></i>
     </a>
     <ul class="dropdown-menu">
-        <li>
-            <a href="/profile">
-                <i class="icon-user"></i> My Profile </a>
-        </li>
+
+        <%--<li><a href="/profile"><i class="icon-user"></i> My Profile </a></li>--%>
+
  <%--       <li>
             <a href="page_calendar.html">
                 <i class="icon-calendar"></i> My Calendar </a>

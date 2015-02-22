@@ -115,7 +115,7 @@
             }
 
             $.ajax({
-                url: "/ajax/ad/update",
+                url: "/ajax/campaign/update",
                 data: JSON.stringify(json),
                 type: "POST",
                 contentType: 'application/json',
@@ -131,7 +131,7 @@
 
     function editRow(id) {
         $.ajax({
-            url: "/ajax/ad/info.json?id=" + id,
+            url: "/ajax/campaign/info.json?id=" + id,
             type: "GET",
             success: function (data) {
                 $("#modalId").val(data['id'])
@@ -182,7 +182,7 @@
         $('#fileupload').fileupload({
             url: '/ajax/img/upload',
             add: function(e, data) {
-                data.url = '/ajax/ad/uploadImg?id=' + $('#modalId').val()
+                data.url = '/ajax/campaign/uploadImg?id=' + $('#modalId').val()
                 data.submit();
             },
             dataType: 'json',

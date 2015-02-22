@@ -32,7 +32,7 @@ public class ShopController {
     private UserService userService;
 
     @Qualifier("departmentServiceImpl")
-    @Autowired(required = true)
+    @Autowired
     private DepartmentServiceImpl departmentService;
 
 
@@ -62,8 +62,7 @@ public class ShopController {
 
         if (user == null || user.getUsername() == null || user.getUsername().isEmpty()) {
             map.put("error", "Authorization error");
-        }
-        if (shop == null || shop.getId() < 1) {
+        } else if (shop == null || shop.getId() < 1) {
             map.put("error", "Shop #" + id + " not found");
         } else if (!user.getUsername().equals(shop.getUser().getUsername())) {
             map.put("error", "You don't have permission to delete this shop");
@@ -148,7 +147,7 @@ public class ShopController {
     @RequestMapping(value = "shops.json", method = RequestMethod.POST)
     @ResponseBody
     public List shops()  {
-        return shopService.list(userService.getCurrentUser(), 0, 0, null, null);
+        return shopService.list(userService.getCurrentUser());
     }
     @RequestMapping(value = "departments.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

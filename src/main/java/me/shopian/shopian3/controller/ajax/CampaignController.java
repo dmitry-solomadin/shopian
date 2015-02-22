@@ -25,9 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@RequestMapping("/ajax/ad")
-public class AdController {
-    private static Logger logger = LoggerFactory.getLogger(AdController.class);
+@RequestMapping("/ajax/campaign")
+public class CampaignController {
+    private static Logger logger = LoggerFactory.getLogger(CampaignController.class);
 
     @Qualifier("shopServiceImpl")
     @Autowired(required = true)

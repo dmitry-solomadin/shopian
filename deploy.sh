@@ -1,8 +1,4 @@
 #!/bin/bash
-#echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-#echo "!!!!!!   NOT FORGET run: Menu -> Build -> Make Grail Web Archive   !!!!!!!!!!"
-#echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-
 echo "upload to server??? [y,n]"
 read -n 1 doIt
 case $doIt in
