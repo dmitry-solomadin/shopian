@@ -1,5 +1,6 @@
 package me.shopian.shopian3.dao;
 
+import me.shopian.shopian3.entity.Ad;
 import me.shopian.shopian3.entity.Department;
 import me.shopian.shopian3.entity.Shop;
 import me.shopian.shopian3.entity.User;
@@ -122,10 +123,14 @@ public class ShopDaoImpl implements ShopDao {
     public void delete(long id) {
         Session session = this.sessionFactory.getCurrentSession();
         Shop shop = (Shop) session.load(Shop.class, id);
-        for (Department department : shop.getDepartments()) {
-            session.delete(department);
-        }
         if (shop != null) {
+            Criteria criteria = session.createCriteria(Ad.class);
+            criteria.add(Restrictions.eq("shop", shop));
+            for(Ad ad: (List<Ad>)criteria.list()){
+                ad.setShop(null);
+                ad.setDepartment(null);
+                session.save(ad);
+            }
             session.delete(shop);
         }
     }

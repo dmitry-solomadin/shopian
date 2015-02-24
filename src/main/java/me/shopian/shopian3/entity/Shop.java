@@ -20,7 +20,7 @@ public class Shop {
     private String address;
 
     @Column(nullable=false)
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
     private Collection<Department> departments=new ArrayList();
 
     @ManyToOne
