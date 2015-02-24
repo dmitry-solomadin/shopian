@@ -55,6 +55,14 @@ public class Ad {
         this.user = user;
     }
 
+    public int getImgVer(){
+        if (this.img==null) return 0;
+        else return this.img.length;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+
+
     public long getId() {
         return id;
     }
@@ -134,6 +142,8 @@ public class Ad {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+
 }
 
 

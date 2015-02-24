@@ -79,11 +79,11 @@
     <span>загрузить</span>
     <input id="fileupload" type="file" name="file" accept="image/*">
 </span>
-                            <button type="button" class="btn btn-default red">удалить</button>
+                            <button type="button" class="btn btn-default red" id="delImg">удалить</button>
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        <img src="http://lafox.net/i/244-w352-h198-c.jpg?v=1424252568710" class="pull-right"/>
+                        <img src="/resources/images/default-image.png" width="320" class="pull-right" id="imgPreviewBig"/>
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 contentType: 'application/json',
                 success: function (data) {
                     if (data["error"]) alert(data["error"])
-                    $(".reload").click();
+                    afterUpdate(data['ad'],true)
                     $("#basicClose").click()
                 }
             });
@@ -157,17 +157,29 @@
                     $('#modalDepartment').empty().append(new Option("--- отдел ---", ""))
                 }
 
-                $(".mAdId").html(data['id'])
-                $("#modalId").html(data['id'])
+                $(".mAdId").val(data['id'])
+                $("#modalId").val(data['id'])
+
+                afterUpdate(data,false)
 
                 $("#basic").modal()
+
             },
             error: function (request, status, error) {
                 alert(request.responseText);
             }
         });
     }
-
+    function afterUpdate(data,reloadDataTable){
+        console.log("afterUpdate(data):")
+        console.log(data)
+       if(reloadDataTable) $(".reload").click()
+        var src= '/img/ad0-w320-v0.jpg'
+        if (data&&data['imgVer']){
+        src='/img/ad'+$("#modalId").val()+'-w320-v'+data['imgVer']+'.jpg';
+        }
+        $('#imgPreviewBig').attr("src", src);
+    }
 </script>
 
 
@@ -192,7 +204,12 @@
                 if (data.result['error']) {
                     alert(data.result['error'])
                 } else {
-                    alert("ok")
+//                    var v=$("#imgVer").val()+1
+//                    $("#imgVer").val(v)
+                    afterUpdate(data.result['ad'],true)
+
+//                    reloadImage();
+//                    alert("ok")
                 }
 //                reloadStatus()
 
@@ -213,6 +230,24 @@
 //                    that.options.url = '/ajax/img/upload?id=' + $('#modalId').val()
 //
                 });
+        $('#delImg').click(     function(){
+            bootbox.confirm("Удалить Картинку ?", function (result) {
+                if (result == true) {
+                    $.ajax({
+                        url: "/ajax/campaign/delImg/" + $("#modalId").val(),
+                        type: "DELETE",
+                        success: function (data) {
+                            if (data["error"]) alert(data["error"])
+                            $(".reload").click();
+                            afterUpdate(false,true)
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+                    });
+                }
+            });
+        })
     });
 
 </script>

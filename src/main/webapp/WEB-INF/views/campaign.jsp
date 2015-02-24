@@ -172,6 +172,11 @@
             aoColumnDefs: [{bSortable: false, aTargets: [-1, -2]}],
             order: [[0, "desc"]],
             fnRowCallback: function (nRow, aData, iDisplayIndex) {
+                if(aData['imgVer']>0){
+                $('td', nRow).eq(0)
+                        .html('<div class="idColumn1"><img src="/img/ad'+aData['id']+'-w58-v'+aData['imgVer']+'.jpg"/><div class="idColumn2">'+aData['id']+'</div></div>')
+                        .addClass("hasImg")
+                }
                 $('td', nRow).eq(8).html('' +
                 '<button class="btn btn-primary btn-xs" onclick="editRow(' + aData['id'] + ')"><i class="glyphicon glyphicon-edit"></i> edit</button>' +
                 '<button class="btn btn-danger  btn-xs" onclick="delRow(' + aData['id'] + ',\'' + aData['title'] + '\')"><i class="glyphicon glyphicon-trash"></i> del</button>' +
@@ -205,7 +210,28 @@
         });
     });
 </script>
+<style>
+    .idColumn1{
+        position:relative;
+    }
+    .idColumn2{
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        background: #eee;
+        border-radius: 6px!important;
+        padding: 0px 3px;
+        font-size: 9px;
+        /*font-family: verdana, helvetica, arial, sans-serif;*/
+        /*font-size: 13px;*/
+    }
+    .hasImg{
+        /*padding: inherit;*/
+        padding: 3px  8px!important;
+        /*background: red;*/
 
+    }
+</style>
 <tags:modalFormAd/>
 </body>
 </html>

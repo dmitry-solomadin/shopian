@@ -97,6 +97,26 @@ public class CampaignController {
         }
         return map;
     }
+    @RequestMapping(value = "delImg/{id:\\d+}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Map delImg(@PathVariable long id) {
+        Map map = new HashMap();
+        Ad ad = adService.get(id);
+        User user = userService.getCurrentUser();
+
+        if (user == null || user.getUsername() == null || user.getUsername().isEmpty()) {
+            map.put("error", "Authorization error");
+        }
+        if (ad == null || ad.getId() < 1) {
+            map.put("error", "Ad #" + id + " not found");
+        } else if (!user.getUsername().equals(ad.getUser().getUsername())) {
+            map.put("error", "You don't have permission to delete this");
+        } else {
+            ad.setImg(null);
+            adService.update(ad);
+        }
+        return map;
+    }
 
     @RequestMapping(value = "list.json")
     @ResponseBody
@@ -129,17 +149,19 @@ public class CampaignController {
         Ad ad=  mapToBeacon(adMap, adService.get(NumberUtils.toLong(adMap.get("id"))));
         adService.update(ad);
         Map map = new HashMap();
+        map.put("ad",ad);
         return map;
     }
     @RequestMapping(value = "/uploadImg", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
-    public Map<String, String> handleFormUpload(@RequestParam("id") long id, @RequestParam("file") MultipartFile file) {
+    public Map<String, Object> handleFormUpload(@RequestParam("id") long id, @RequestParam("file") MultipartFile file) {
         System.out.println("id = [" + id + "], file = [" + file + "]");
-        Map<String, String> map = new HashMap();
+        Map<String, Object> map = new HashMap();
         try {
             Ad ad=adService.get(id);
             ad.setImg(file.getBytes());
             adService.update(ad);
+        map.put("ad", ad);
         } catch (IOException e) {
             map.put("error", "IOException:"+e.getMessage());
         }

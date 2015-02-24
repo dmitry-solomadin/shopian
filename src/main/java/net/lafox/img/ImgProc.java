@@ -13,10 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImgProc {
-    public static BufferedImage crop(InputStream src, double width, double height) throws IOException {
-        BufferedImage bi=ImageIO.read(src);
-        double wOrig = (double) bi.getWidth();
-        double hOrig = (double) bi.getHeight();
+    public static BufferedImage crop(BufferedImage src, double width, double height) throws IOException {
+        double wOrig = (double) src.getWidth();
+        double hOrig = (double) src.getHeight();
 
         double wCrop, hCrop;
         double kOrig = wOrig / hOrig;
