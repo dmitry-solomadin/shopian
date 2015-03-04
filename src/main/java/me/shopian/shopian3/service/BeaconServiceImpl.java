@@ -55,6 +55,11 @@ public class BeaconServiceImpl implements BeaconService {
     }
 
     @Override
+    public Beacon getBayUuidMajorMinor(String uuid, int major, int minor) {
+        return beaconDao.getBayUuidMajorMinor(uuid,major,minor);
+    }
+
+    @Override
     public Beacon get(long id) {
         return beaconDao.get(id);
     }

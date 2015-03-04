@@ -74,4 +74,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User findUserByUsername(String username) {
         return userDao.findUserByUsername(username);
     }
+
+    @Override
+    public User findUserByToken(String token) {
+        return userDao.findUserByToken(token);
+    }
+
 }

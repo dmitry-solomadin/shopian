@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.UUID;
 
 
 @Entity
@@ -34,6 +35,9 @@ public class User implements Serializable {
         joinColumns=@JoinColumn(name="USERNAME"),
         inverseJoinColumns=@JoinColumn(name="ROLENAME"))
     private Collection<Role> roles;
+
+    @Column(length = 40)
+    private String token;
 
     //////////////////////////////////////////////////////////////
 
@@ -61,5 +65,11 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
+    public String getToken() {
+        return token;
+    }
 
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

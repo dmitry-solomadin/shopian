@@ -14,6 +14,7 @@ public interface BeaconService {
     public long count();
     public long count(String search);
     public Beacon getBayUuidMajorMinor(Beacon beacon);
+    public Beacon getBayUuidMajorMinor(String uuid,int major, int minor);
     public Beacon get(long id);
     public void delete(long id);
 }

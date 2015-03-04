@@ -8,4 +8,5 @@ import java.util.Collection;
 public interface UserDao {
     public User findUserByUsername(String username);
     public Collection<User> list(String roleName);
+    public User findUserByToken(String token);
 }

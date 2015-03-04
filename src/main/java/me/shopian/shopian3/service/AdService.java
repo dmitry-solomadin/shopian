@@ -1,6 +1,7 @@
 package me.shopian.shopian3.service;
 
 import me.shopian.shopian3.entity.Ad;
+import me.shopian.shopian3.entity.Beacon;
 import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.util.ColumnDirection;
 
@@ -16,4 +17,5 @@ public interface AdService {
     public long count(User user,String search);
     public Ad get(long id);
     public void delete(long id);
+    public List<Ad> getListForBeacon(Beacon beacon);
 }

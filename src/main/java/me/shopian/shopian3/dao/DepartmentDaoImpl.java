@@ -16,7 +16,7 @@ import java.util.Collection;
 
 @Repository
 public class DepartmentDaoImpl implements DepartmentDao {
-    private static Logger logger = LoggerFactory.getLogger(ShopDaoImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(DepartmentDaoImpl.class);
 
     @Qualifier("sessionFactory")
     @Autowired

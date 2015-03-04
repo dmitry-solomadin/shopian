@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,13 @@ public class UserDaoImpl implements UserDao {
             }
         }
         return res;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User findUserByToken(String token) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(User.class);
+        return  (User) criteria.add(Restrictions.eq("token",token)).uniqueResult();
     }
 }

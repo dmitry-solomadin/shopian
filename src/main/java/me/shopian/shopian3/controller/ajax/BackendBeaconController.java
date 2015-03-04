@@ -1,6 +1,5 @@
 package me.shopian.shopian3.controller.ajax;
 
-import me.shopian.shopian3.dao.UserDaoImpl;
 import me.shopian.shopian3.entity.Beacon;
 import me.shopian.shopian3.entity.Shop;
 import me.shopian.shopian3.entity.User;
@@ -9,14 +8,12 @@ import me.shopian.shopian3.service.DepartmentServiceImpl;
 import me.shopian.shopian3.service.ShopService;
 import me.shopian.shopian3.service.UserServiceImpl;
 import me.shopian.shopian3.util.DataTableUtils;
-import me.shopian.shopian3.util.IdTitle;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +22,8 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/ajax/beacon")
-public class BeaconController {
-    private static Logger logger = LoggerFactory.getLogger(BeaconController.class);
+public class BackendBeaconController {
+    private static Logger logger = LoggerFactory.getLogger(BackendBeaconController.class);
 
     @Qualifier("beaconServiceImpl")
     @Autowired(required = true)

@@ -1,11 +1,9 @@
 package me.shopian.shopian3.dao;
 
-import me.shopian.shopian3.entity.Ad;
-import me.shopian.shopian3.entity.Beacon;
+import me.shopian.shopian3.entity.Log;
 import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.util.ColumnDirection;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -18,13 +16,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.crypto.Data;
-import java.util.Date;
 import java.util.List;
 
 @Repository
-public class AdDaoImpl implements AdDao {
-    private static Logger logger = LoggerFactory.getLogger(AdDaoImpl.class);
+public class LogDaoImpl  implements  LogDao{
+    private static Logger logger = LoggerFactory.getLogger(LogDaoImpl.class);
 
     @Qualifier("sessionFactory")
     @Autowired
@@ -32,32 +28,32 @@ public class AdDaoImpl implements AdDao {
 
     @Override
     @Transactional
-    public void add(Ad ad) {
+    public void add(Log log) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.persist(ad);
+        session.persist(log);
     }
 
     @Override
     @Transactional
-    public void update(Ad ad) {
+    public void update(Log log) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.update(ad);
+        session.update(log);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Ad> list(User user) {
+    public List<Log> list(User user) {
         Session session = this.sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Ad.class);
+        Criteria criteria = session.createCriteria(Log.class);
         criteria.add(Restrictions.eq("user", user));
         return criteria.list();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Ad> list(User user, int start, int length, List<ColumnDirection> sortColumns, String search) {
+    public List<Log> list(User user, int start, int length, List<ColumnDirection> sortColumns, String search) {
         Session session = this.sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Ad.class);
+        Criteria criteria = session.createCriteria(Log.class);
         criteria.add(Restrictions.eq("user", user));
 
         if (start > 0) {
@@ -66,9 +62,9 @@ public class AdDaoImpl implements AdDao {
         if (length > 0) {
             criteria.setMaxResults(length);
         }
-        if (search != null && !search.isEmpty()) {
-            criteria.add(Restrictions.like("title", "%" + search + "%"));
-        }
+//        if (search != null && !search.isEmpty()) {
+//            criteria.add(Restrictions.like("title", "%" + search + "%"));  // TODO !!!!
+//        }
         if (sortColumns != null) {
             for (ColumnDirection cd : sortColumns) {
                 if (cd.isDesc()) {
@@ -85,7 +81,7 @@ public class AdDaoImpl implements AdDao {
     @Transactional(readOnly = true)
     public long count(User user) {
         Session session = this.sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Ad.class);
+        Criteria criteria = session.createCriteria(Log.class);
         criteria.add(Restrictions.eq("user", user));
         return (long) criteria.setProjection(Projections.rowCount()).uniqueResult();
     }
@@ -94,47 +90,28 @@ public class AdDaoImpl implements AdDao {
     @Transactional(readOnly = true)
     public long count(User user, String search) {
         Session session = this.sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Ad.class);
+        Criteria criteria = session.createCriteria(Log.class);
         criteria.add(Restrictions.eq("user", user));
-        System.out.println("search = " + search);
-        if (search != null && !search.isEmpty()) {
-            criteria.add(Restrictions.like("title", "%" + search + "%"));
-        }
+//        if (search != null && !search.isEmpty()) {
+//            criteria.add(Restrictions.like("title", "%" + search + "%"));  //TODO !!!!!!!!
+//        }
         return (long) criteria.setProjection(Projections.rowCount()).uniqueResult();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Ad get(long id) {
+    public Log get(long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        return (Ad) session.get(Ad.class, id);
+        return (Log) session.get(Log.class, id);
     }
 
     @Override
     @Transactional
     public void delete(long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Ad ad = (Ad) session.load(Ad.class, id);
-        if (ad != null) {
-            session.delete(ad);
+        Log log = (Log) session.load(Log.class, id);
+        if (log != null) {
+            session.delete(log);
         }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Ad> getListForBeacon(Beacon beacon) {
-        Session session = this.sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Ad.class);
-        Date now=new Date();
-
-            criteria.add(Restrictions.le("dateStart", now));
-            criteria.add(Restrictions.gt("dateStop", now));
-
-        if (beacon.getDepartment()!=null) {
-            criteria.add(Restrictions.eq("department", beacon.getDepartment()));
-        }else{
-            criteria.add(Restrictions.eq("shop", beacon.getShop()));
-        }
-        return criteria.list();
     }
 }

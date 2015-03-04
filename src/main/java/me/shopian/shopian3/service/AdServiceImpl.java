@@ -2,13 +2,16 @@ package me.shopian.shopian3.service;
 
 import me.shopian.shopian3.dao.AdDaoImpl;
 import me.shopian.shopian3.entity.Ad;
+import me.shopian.shopian3.entity.Beacon;
 import me.shopian.shopian3.entity.User;
 import me.shopian.shopian3.util.ColumnDirection;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +22,7 @@ public class AdServiceImpl implements AdService {
     @Qualifier("adDaoImpl")
     @Autowired
     private AdDaoImpl adDao;
+
 
     @Override
     public void add(Ad ad) {
@@ -58,5 +62,10 @@ public class AdServiceImpl implements AdService {
     @Override
     public void delete(long id) {
         adDao.delete(id);
+    }
+
+    @Override
+    public List<Ad> getListForBeacon(Beacon beacon) {
+        return adDao.getListForBeacon(beacon);
     }
 }

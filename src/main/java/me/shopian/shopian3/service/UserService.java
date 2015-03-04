@@ -12,4 +12,6 @@ public interface UserService {
     public User getCurrentUser();
     public Collection<User> list(String roleName);
     public User findUserByUsername(String username);
+    public User findUserByToken(String token);
+
 }

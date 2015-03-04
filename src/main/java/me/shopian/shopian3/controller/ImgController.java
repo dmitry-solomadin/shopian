@@ -76,7 +76,8 @@ public class ImgController {
 //            System.out.println("realPath = " + realPath);
         }
         System.out.println("in = " + in);
-        BufferedImage res = ImgProc.crop(ImageIO.read(in), w, 9.0 * w / 16.0);
+//        BufferedImage res = ImgProc.crop(ImageIO.read(in), w, 9.0 * w / 16.0);
+        BufferedImage res = ImgProc.width(ImageIO.read(in), w);
         if (res != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Thumbnails.of(res).outputQuality(quality / 100.0).scale(1).outputFormat(ext).toOutputStream(baos);

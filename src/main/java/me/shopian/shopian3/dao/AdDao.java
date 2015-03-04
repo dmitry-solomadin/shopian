@@ -16,4 +16,6 @@ public interface AdDao {
     public long count(User user,String search);
     public Ad get(long id);
     public void delete(long id);
+
+    public List<Ad> getListForBeacon(Beacon beacon);
 }

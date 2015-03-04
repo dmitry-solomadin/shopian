@@ -29,6 +29,9 @@ public class ImgProc {
         }
         return Thumbnails.of(src).sourceRegion(Positions.CENTER, i(wCrop), i(hCrop)).forceSize(i(width), i(height)).asBufferedImage();
     }
+    public static BufferedImage width(BufferedImage src, double width) throws IOException {
+        return Thumbnails.of(src).width(i(width)).asBufferedImage();
+    }
     public static int i(double x) {
         return (int) Math.round(x);
     }

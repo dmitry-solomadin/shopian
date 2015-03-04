@@ -107,6 +107,19 @@ public class BeaconDaoImpl implements BeaconDao {
 
     @Override
     @Transactional(readOnly = true)
+    public Beacon getBayUuidMajorMinor(String uuid, int major, int minor) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Beacon.class);
+        Beacon beacon2 = (Beacon) criteria
+                .add(Restrictions.eq("uuid", uuid))
+                .add(Restrictions.eq("major", major))
+                .add(Restrictions.eq("minor", minor))
+                .uniqueResult();
+        return beacon2;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Beacon get(long id) {
         Session session = this.sessionFactory.getCurrentSession();
         return (Beacon) session.get(Beacon.class, id);

@@ -16,6 +16,7 @@ import java.util.Date;
 
 
 @Entity
+@Table(name="ads")
 public class Ad {
     @Id
     @GeneratedValue
@@ -24,14 +25,16 @@ public class Ad {
     @Column(length = 128)
     private String title;
 
-    @Column(length = 128)
+    @Column(length = 128, name = "pushtext")
     private String pushText;
 
     @Column(length = 8 * 1024)
     private String content;
 
+    @Column(name = "datestart")
     private Date dateStart= new Date();
 
+    @Column(name = "datestop")
     private Date dateStop;
 
     @JsonIgnore
@@ -40,12 +43,15 @@ public class Ad {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] img;
 
+//    @JsonIgnore
     @ManyToOne
     private User user;
 
+//    @JsonIgnore
     @ManyToOne
     private Shop shop;
 
+//    @JsonIgnore
     @ManyToOne
     private Department department;
 
