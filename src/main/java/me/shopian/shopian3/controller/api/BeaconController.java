@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/api/beacon")
@@ -47,72 +44,66 @@ public class BeaconController {
     /**
      * @param token
      * @param eventName
-     * @param eventDate  @DateTimeFormat requared joda-time
+     * @param eventDate @DateTimeFormat requared joda-time
      * @param uuid
      * @param major
      * @param minor
-     * @return
+     * @return JSON
      *
-     * curl -X POST --data "token=064e9471-9730-4f76-ae4e-207a070a4b09&eventName=qqq&eventDate=2012-01-02 12:13:14&uuid=111&major=22&minor=444"  'http://localhost:8080/api/beacon/inZone' ;echo
+     * test
+     *   curl -X POST --data "token=7bf581bb-4508-48f3-a638-66f619f56738&eventName=BEACON_ZONE_1&eventDate=2012-01-02 12:13:14&uuid=f7826da6-4fa2-4e98-8024-bc5b71e0893e&major=49494&minor=11946"  http://admin.shopian.me/api/beacon/inZone
+     *   curl -X POST --data "token=7bf581bb-4508-48f3-a638-66f619f56738&eventName=BEACON_ZONE_1&eventDate=2012-01-02 12:13:14"  http://admin.shopian.me/api/beacon/inZone
      *
      */
 
     @JsonIgnoreProperties({"id"})
     @JsonFilter("id")
 
-    @RequestMapping(value = "inZone",method = {RequestMethod.POST})
+    @RequestMapping(value = "inZone", method = {RequestMethod.POST})
     @ResponseBody
     public Map list(
             @RequestParam(value = "token", required = true) String token
-            ,@RequestParam(value = "eventName", required = true) String eventName
-            ,@RequestParam(value = "eventDate", required = true) @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")   Date eventDate
-            ,@RequestParam(value = "uuid", required = true) String uuid
-            ,@RequestParam(value = "major", required = true) int major
-            ,@RequestParam(value = "minor", required = true) int minor
+            , @RequestParam(value = "eventName", required = true) String eventName
+            , @RequestParam(value = "eventDate", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date eventDate
+            , @RequestParam(value = "uuid", required = false, defaultValue = "") String uuid
+            , @RequestParam(value = "major", required = false, defaultValue = "0") int major
+            , @RequestParam(value = "minor", required = false, defaultValue = "0") int minor
     ) {
         System.out.println("token = [" + token + "], eventName = [" + eventName + "], eventDate = [" + eventDate + "], uuid = [" + uuid + "], major = [" + major + "], minor = [" + minor + "]");
 
         Map map = new HashMap();
         UserMobile user = userMobileService.get(token);
-        if (user==null){
-            map.put("error","token '"+token+"' not found");
+        if (user == null) {
+            map.put("error", "token '" + token + "' not found");
             return map;
         }
-        Beacon beacon = beaconService.getBayUuidMajorMinor(uuid,major,minor);
-        if (beacon==null){
-            map.put("error","beacon with uuid='"+uuid+"' major='"+major+"' minor='"+minor+"' not found");
-            return map;
+        Log log = new Log();
+        log.setUserMobile(user);
+        if (!"".equals(uuid)) {
+            Beacon beacon = beaconService.getBayUuidMajorMinor(uuid, major, minor);
+            if (beacon == null) {
+                map.put("error", "beacon with uuid='" + uuid + "' major='" + major + "' minor='" + minor + "' not found");
+                return map;
+            }
+            log.setBeacon(beacon);
+            List<Ad> ads = adService.getListForBeacon(beacon);
+            log.setAds(ads);
+            map.put("campaigns", ads);
+        }else{
+            map.put("campaigns", new ArrayList<Ad>());
         }
 
         Event event = eventService.get(eventName);
-        if (event==null){
-            map.put("error","event '"+eventName+"' not found");
+        if (event == null) {
+            map.put("error", "event '" + eventName + "' not found");
             return map;
         }
 
-        Log log = new Log();
-        log.setBeacon(beacon);
         log.setDateMobile(eventDate);
         log.setEvent(event);
-        log.setUserMobile(user);
-        List<Ad> ads = adService.getListForBeacon(beacon);
-        log.setAds(ads);
 
         logService.add(log);
 
-//        map.put("ok",true);
-        map.put("campaigns",ads);
-//        map.put("log",log);
-
-
-/*        User user=userService.findUserByToken(productToken);
-        if (user==null){
-            map.put("error","productToken '"+productToken+"' not found");
-            return map;
-        }
-        UserMobile userMobile=new UserMobile(user);
-        userMobileImpl.add(userMobile);
-        map.put("token",userMobile.getToken());*/
         return map;
     }
 }
