@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
+
+import static net.lafox.img.ImgProc.imgDimension;
 
 @Controller
 @RequestMapping("/ajax/campaign")
@@ -160,6 +164,9 @@ public class CampaignController {
         try {
             Ad ad=adService.get(id);
             ad.setImg(file.getBytes());
+            Dimension dim=imgDimension(file.getBytes());
+            ad.setImgWidth(dim.width);
+            ad.setImgHeight(dim.height);
             adService.update(ad);
         map.put("ad", ad);
         } catch (IOException e) {

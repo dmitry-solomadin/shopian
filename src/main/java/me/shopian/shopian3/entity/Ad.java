@@ -43,6 +43,12 @@ public class Ad {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] img;
 
+    @Column(name = "img_width", nullable = false)
+    private int imgWidth=0;
+
+    @Column(name = "img_height", nullable = false)
+    private int imgHeight=0;
+
 //    @JsonIgnore
     @ManyToOne
     private User user;
@@ -68,6 +74,22 @@ public class Ad {
 
     //////////////////////////////////////////////////////////////////////
 
+
+    public int getImgWidth() {
+        return imgWidth;
+    }
+
+    public void setImgWidth(int imgWidth) {
+        this.imgWidth = imgWidth;
+    }
+
+    public int getImgHeight() {
+        return imgHeight;
+    }
+
+    public void setImgHeight(int imgHeight) {
+        this.imgHeight = imgHeight;
+    }
 
     public long getId() {
         return id;
