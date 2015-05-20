@@ -4,6 +4,7 @@ import me.shopian.shopian3.dao.AdDaoImpl;
 import me.shopian.shopian3.entity.Ad;
 import net.coobird.thumbnailator.Thumbnails;
 import net.lafox.img.ImgProc;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +32,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("img")
 public class ImgController {
-    private long EXPIRE;
     @Qualifier("adDaoImpl")
     @Autowired
     private AdDaoImpl adDao;
@@ -39,11 +39,9 @@ public class ImgController {
     private String defaultImage = "/resources/images/default-image.png";
 
 
+    private final long EXPIRE = new DateTime().plusYears(1).getMillis();;
     @PostConstruct
     private void init() {
-        Calendar inOneMonth = Calendar.getInstance();
-        inOneMonth.add(Calendar.YEAR, 1);
-        EXPIRE = inOneMonth.getTimeInMillis();
         types.put("png", MediaType.IMAGE_PNG);
         types.put("gif", MediaType.IMAGE_GIF);
         types.put("jpg", MediaType.IMAGE_JPEG);
